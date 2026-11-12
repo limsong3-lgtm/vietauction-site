@@ -722,31 +722,39 @@ $('fr').onclick=()=>{F.q=F.c=F.o='';$('hq').value='';$('fc').value='';$('fo').va
 /* ---- gallery restyle additions (Nov 2026) ---- */
 Object.assign(VI,{"The lots":"Các lô","Contact":"Liên hệ","Visit and contact":"Tham quan và liên hệ","Talk to our team":"Trò chuyện với đội ngũ của chúng tôi","Questions about a lot, condition, viewing or how to bid: we are glad to help in Vietnamese, English or Korean.":"Câu hỏi về một lô, tình trạng hiện vật, lịch xem hay cách đấu giá: chúng tôi sẵn lòng hỗ trợ bằng tiếng Việt, tiếng Anh hoặc tiếng Hàn.","VietAuction · Antique auctions in Vietnam":"VietAuction · Đấu giá cổ vật tại Việt Nam","Menu":"Menu","Back to top":"Lên đầu trang"});
 Object.assign(KO,{"The lots":"출품작","Contact":"문의","Visit and contact":"방문 및 문의","Talk to our team":"담당자와 상담하기","Questions about a lot, condition, viewing or how to bid: we are glad to help in Vietnamese, English or Korean.":"출품작, 상태, 프리뷰 관람 또는 응찰 방법에 대한 문의는 베트남어, 영어, 한국어로 도와드립니다.","VietAuction · Antique auctions in Vietnam":"VietAuction · 베트남 골동품 경매","Menu":"메뉴","Back to top":"맨 위로"});
+/* Registration: set to the Apps Script web app URL that appends rows to the registration sheet (see tools/registration-apps-script.gs). */
+const REG_ENDPOINT=''; /* set to the web app URL that appends rows to the registration sheet */
 /* Contact details shown in the "Visit and contact" section and footer. Leave a value empty to hide it; the section stays hidden until at least one is filled. */
 const CONTACT={
-  phone:'',      /* e.g. '+84 90 123 4567' */
+  name:'Ms. Huyen Luu',  /* contact person */
+  phone:'+84 904 041 283',      /* e.g. '+84 90 123 4567' */
   zalo:'',       /* Zalo phone number, digits only, e.g. '84901234567' */
   email:'',      /* e.g. 'info@vietauction.org' */
   address:'',    /* office or viewing address */
   hours:'',      /* e.g. 'Mon–Sat, 9:00–18:00' */
   facebook:''    /* full URL */
 };
-(function(){
+function paintContact(){
   const rows=[];
   const tel=v=>'tel:'+v.replace(/[^\d+]/g,'');
-  if(CONTACT.phone)rows.push(['Phone',`<a href="${tel(CONTACT.phone)}">${esc(CONTACT.phone)}</a>`]);
+  if(CONTACT.name)rows.push([L2('Contact person','Người liên hệ','담당자'),esc(CONTACT.name)]);
+  if(CONTACT.phone)rows.push([L2('Phone','Điện thoại','전화'),`<a href="${tel(CONTACT.phone)}">${esc(CONTACT.phone)}</a>`]);
   if(CONTACT.zalo)rows.push(['Zalo',`<a href="https://zalo.me/${esc(CONTACT.zalo.replace(/\D/g,''))}" rel="noopener">${esc(CONTACT.zalo)}</a>`]);
   if(CONTACT.email)rows.push(['Email',`<a href="mailto:${esc(CONTACT.email)}">${esc(CONTACT.email)}</a>`]);
-  if(CONTACT.address)rows.push(['Address',`<a href="https://maps.google.com/?q=${encodeURIComponent(CONTACT.address)}" rel="noopener">${esc(CONTACT.address)}</a>`]);
-  if(CONTACT.hours)rows.push(['Hours',esc(CONTACT.hours)]);
+  if(CONTACT.address)rows.push([L2('Address','Địa chỉ','주소'),`<a href="https://maps.google.com/?q=${encodeURIComponent(CONTACT.address)}" rel="noopener">${esc(CONTACT.address)}</a>`]);
+  if(CONTACT.hours)rows.push([L2('Hours','Giờ làm việc','운영 시간'),esc(CONTACT.hours)]);
   if(CONTACT.facebook)rows.push(['Facebook',`<a href="${esc(CONTACT.facebook)}" rel="noopener">Facebook</a>`]);
   const has=rows.length>0;
   $('contact').hidden=!has;
   document.querySelectorAll('[data-contact-link]').forEach(a=>a.hidden=!has);
   $('contact-list').innerHTML=rows.map(r=>`<div><dt>${r[0]}</dt><dd>${r[1]}</dd></div>`).join('');
-  const f=[];if(CONTACT.phone)f.push(`<a href="${tel(CONTACT.phone)}">${esc(CONTACT.phone)}</a>`);if(CONTACT.email)f.push(`<a href="mailto:${esc(CONTACT.email)}">${esc(CONTACT.email)}</a>`);
+  const f=[];if(CONTACT.name)f.push(esc(CONTACT.name));if(CONTACT.phone)f.push(`<a href="${tel(CONTACT.phone)}">${esc(CONTACT.phone)}</a>`);if(CONTACT.email)f.push(`<a href="mailto:${esc(CONTACT.email)}">${esc(CONTACT.email)}</a>`);
   $('foot-contact').innerHTML=f.join(' · ');
-})();
+  /* until the registration sheet is connected, point people to a person instead of a form that saves nothing */
+  if(!REG_ENDPOINT&&CONTACT.phone){const t=`<a href="${tel(CONTACT.phone)}">${esc(CONTACT.phone)}</a>`;
+    $('demo').innerHTML=L2(`To register now, call or Zalo ${esc(CONTACT.name||'our team')} at ${t}. Online registration opens soon.`,`Để đăng ký ngay, vui lòng gọi hoặc nhắn Zalo cho ${esc(CONTACT.name||'đội ngũ chúng tôi')} theo số ${t}. Đăng ký trực tuyến sẽ sớm mở.`,`지금 등록하시려면 ${esc(CONTACT.name||'담당자')}에게 전화 또는 Zalo로 연락해 주세요: ${t}. 온라인 등록은 곧 열립니다.`);}
+}
+paintContact();document.addEventListener('va-lang',paintContact);
 /* mobile menu */
 $('menu').onclick=()=>{const o=$('top').classList.toggle('open');$('menu').setAttribute('aria-expanded',o)};
 $('nav').addEventListener('click',e=>{if(e.target.closest('a')){$('top').classList.remove('open');$('menu').setAttribute('aria-expanded','false')}});
@@ -785,7 +793,6 @@ paintCards();
 setLang(lang);
 
 /* registration */
-const REG_ENDPOINT=''; /* set to the web app URL that appends rows to the registration sheet */
 $('rf').addEventListener('submit',async e=>{
   e.preventDefault();
   const v=id=>$(id).value.trim();
@@ -796,6 +803,7 @@ $('rf').addEventListener('submit',async e=>{
   if(!$('r-ok').checked)return err(L2('Please tick the box so we can contact you.','Vui lòng đánh dấu ô đồng ý để chúng tôi có thể liên hệ.','연락을 위해 동의란에 체크해 주세요.'));
   err('');
   const body={name:v('r-name'),phone:v('r-phone'),email:v('r-email'),city:v('r-city'),how:v('r-how'),interests:[...document.querySelectorAll('#r-int input:checked')].map(i=>i.value).join(', '),note:v('r-note'),auction:'Echoes of Time 2',at:new Date().toISOString()};
+  if(!REG_ENDPOINT&&CONTACT.phone){err(L2(`Online registration is not open yet. Please call or Zalo ${CONTACT.name||'our team'} at ${CONTACT.phone} and we will register you.`,`Đăng ký trực tuyến chưa mở. Vui lòng gọi hoặc nhắn Zalo cho ${CONTACT.name||'đội ngũ chúng tôi'} theo số ${CONTACT.phone} để được đăng ký.`,`온라인 등록은 아직 열리지 않았습니다. ${CONTACT.name||'담당자'}에게 ${CONTACT.phone}로 전화 또는 Zalo 주시면 등록해 드리겠습니다.`));return}
   if(!REG_ENDPOINT){err(L2('Registration is not switched on in this preview. On the live site this sends your details to the VietAuction team.','Bản xem trước chưa bật chức năng đăng ký. Trên trang chính thức, thông tin của bạn sẽ được gửi đến đội ngũ VietAuction.','이 미리보기에서는 등록 기능이 꺼져 있습니다. 실제 사이트에서는 입력하신 정보가 VietAuction 팀에 전달됩니다.'));return}
   try{await fetch(REG_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(body)});$('rf').hidden=true;$('thanks').hidden=false}
   catch(x){err(L2('Sorry, that did not go through. Please try again in a moment.','Rất tiếc, gửi chưa thành công. Vui lòng thử lại sau ít phút.','죄송합니다. 전송되지 않았습니다. 잠시 후 다시 시도해 주세요.'))}
