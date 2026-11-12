@@ -358,6 +358,8 @@ footer{margin-top:96px;padding:28px 0 0;display:flex;gap:10px 28px;flex-wrap:wra
 footer a{color:var(--muted)}
 .lt-m{display:none}
 @media (max-width:560px){.top .in>.lt{display:none}.top nav .lt-m{display:inline-flex;margin-top:14px;align-self:flex-start}.lt-m button{min-height:44px;padding:6px 14px;font-size:.9rem}}
+.next dd a{background:none;color:var(--muted);padding:0;text-transform:none;letter-spacing:0;font-size:.88rem;font-weight:400;white-space:normal;text-decoration:underline;text-decoration-color:var(--line);border-radius:0;display:inline}
+.next dd a:hover{color:var(--fg)}
 .totop{position:fixed;right:16px;bottom:20px;z-index:4;width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--fg);font-size:1.1rem;cursor:pointer;opacity:0;pointer-events:none;transition:opacity .25s}
 .totop.on{opacity:.92;pointer-events:auto}
 </style>
@@ -423,7 +425,7 @@ footer a{color:var(--muted)}
 </div>
 <div class="next">
   <div class="l"><div class="lab">Next auction</div><div class="nm">Echoes of Time 2</div></div>
-  <dl><dt>Date</dt><dd>21 November 2026</dd><dt>Venue</dt><dd>To be announced (TBA)</dd><dt>Lots</dt><dd>67 ceramics</dd></dl>
+  <dl><dt>Date</dt><dd>21 November 2026</dd><dt>Venue</dt><dd>La Vela Saigon Hotel, 25th floor</dd><dt>Lots</dt><dd>67 ceramics</dd></dl>
   <a class="cta" href="#register">Register to bid</a>
 </div>
 
@@ -626,7 +628,7 @@ function syncPublicCounts(){
   const n=LOTS.length;
   const dds=document.querySelectorAll('.next dd');
   if(dds[0])dds[0].textContent=L2('21 November 2026','21 tháng 11 năm 2026','2026년 11월 21일');
-  if(dds[1])dds[1].textContent=L2('To be announced (TBA)','Sẽ thông báo sau','추후 공지');
+  if(dds[1]){const q=encodeURIComponent('La Vela Saigon Hotel, 280 Nam Kỳ Khởi Nghĩa, Ho Chi Minh City');dds[1].innerHTML=L2('La Vela Saigon Hotel, 25th floor','Khách sạn La Vela Saigon, tầng 25','라벨라 사이공 호텔 25층')+'<br><a href="https://maps.google.com/?q='+q+'" rel="noopener">'+L2('280 Nam Kỳ Khởi Nghĩa, Xuân Hòa, Ho Chi Minh City','280 Nam Kỳ Khởi Nghĩa, Xuân Hòa, TP. Hồ Chí Minh','280 Nam Kỳ Khởi Nghĩa, Xuân Hòa, 호찌민시')+'</a>';}
   if(dds[2])dds[2].textContent=L2(n+' ceramics',n+' hiện vật gốm sứ',n+'점의 도자기');
   const intro=document.querySelector('#auction > p:not(.note)');
   if(intro)intro.textContent=L2(n+' ceramics from Vietnam and China, arranged by form. Each lot lists the catalogue page and VietAuction item number. Starting prices are given in the printed catalogue and are not shown online.',n+' hiện vật gốm sứ Việt Nam và Trung Hoa, sắp xếp theo dáng loại. Mỗi lô ghi số trang catalogue và mã hiện vật VietAuction. Giá khởi điểm chỉ có trong catalogue in và không hiển thị trực tuyến.',n+'점의 베트남·중국 도자기를 기종별로 정리했습니다. 각 출품작에는 도록 페이지와 VietAuction 물품 번호가 표시됩니다.');
