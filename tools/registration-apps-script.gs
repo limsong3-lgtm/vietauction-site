@@ -2,7 +2,7 @@
  * VietAuction bid registrations -> Google Sheet
  *
  * Setup (5 minutes):
- * 1. Create a Google Sheet, e.g. "VietAuction registrations".
+ * 1. Open the Google Sheet "VietAuction registrations" (My Drive > VietAuction).
  * 2. Extensions > Apps Script. Delete the sample code, paste this whole file, Save.
  * 3. Deploy > New deployment > type "Web app".
  *      Execute as: Me.   Who has access: Anyone.
@@ -21,7 +21,7 @@ function doPost(e) {
   try {
     const data = JSON.parse((e && e.postData && e.postData.contents) || '{}');
     const ss = SpreadsheetApp.getActiveSpreadsheet();
-    const sh = ss.getSheetByName(SHEET_NAME) || ss.insertSheet(SHEET_NAME);
+    const sh = ss.getSheetByName(SHEET_NAME) || ss.getSheets()[0];
     if (sh.getLastRow() === 0) {
       sh.appendRow(['Received', 'Auction', 'Name', 'Phone / Zalo', 'Email', 'City', 'How to bid', 'Interested in', 'Note']);
       sh.setFrozenRows(1);
