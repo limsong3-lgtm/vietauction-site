@@ -3,11 +3,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>VietAuction · Antique ceramic auctions in Vietnam</title>
-<meta name="description" content="Echoes of Time 2, 21 November 2026: Vietnamese and Chinese antique ceramics, appraised, numbered and catalogued. Browse the lots and register to bid.">
+<meta name="description" content="Echoes of Time 2 took place on 21 November 2026 in Ho Chi Minh City. Our next auction of Vietnamese and Chinese antique ceramics will be in Hanoi in March 2027.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="VietAuction">
-<meta property="og:title" content="Echoes of Time 2 · VietAuction, 21 November 2026">
-<meta property="og:description" content="Vietnamese and Chinese antique ceramics, appraised, numbered and catalogued. Browse the lots and register to bid.">
+<meta property="og:title" content="VietAuction · Next auction in Hanoi, March 2027">
+<meta property="og:description" content="Thank you for joining Echoes of Time 2 on 21 November 2026. Our next auction will be in Hanoi in March 2027, details coming soon.">
 <meta property="og:url" content="https://vietauction.org/">
 <meta property="og:image" content="https://vietauction.org/img/SG260617PVFA03/1.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -347,6 +347,13 @@ form.rf{border-radius:0;padding:28px;border-color:var(--line)}
 .why .ic{background:none;border:1px solid var(--line);color:var(--bronze)}
 .demo{background:var(--cobalt-soft)}
 .natdb::before{color:var(--bronze)}
+/* recap */
+.recap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:28px 0 8px}
+.recap-grid figure{margin:0;aspect-ratio:3/2;overflow:hidden;background:var(--photo)}
+.recap-grid img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.recap-grid a:hover img{transform:scale(1.03)}
+.recap-grid figure:first-child{grid-column:span 2;grid-row:span 2}
+@media (max-width:560px){.recap-grid figure:first-child{grid-column:auto;grid-row:auto}}
 /* contact + footer */
 .contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:28px;margin-top:28px}
 .contact div{border-top:1px solid var(--line);padding-top:16px}
@@ -379,7 +386,7 @@ footer a{color:var(--muted)}
 <symbol id="v-other" viewBox="0 0 100 100"><path class="vs" d="M44 8H56C58 22 54 28 60 34C74 42 78 62 68 74C64 80 68 84 68 90H32C32 84 36 80 32 74C22 62 26 42 40 34C46 28 42 22 44 8Z"/><path class="vb" d="M43 18Q50 21 57 18"/><path class="vd" d="M28 56Q50 66 72 56"/><path class="vb" d="M32 80Q50 86 68 80"/></symbol>
 </defs></svg>
 <div class="top" id="top"><div class="in"><div class="logo"><a href="#">VietAuction</a></div>
-<nav id="nav"><a href="#auction">The lots</a><a href="#about">About</a><a href="#heritage">Heritage</a><a href="#impact">Why it matters</a><a href="#contact" data-contact-link>Contact</a><div class="lt lt-m" role="group" aria-label="Language"><button type="button" data-setlang="en" lang="en">English</button><button type="button" data-setlang="vi" lang="vi">Tiếng Việt</button><button type="button" data-setlang="ko" lang="ko">한국어</button></div></nav><div class="lt" role="group" aria-label="Language"><button type="button" data-setlang="en" lang="en">EN</button><button type="button" data-setlang="vi" lang="vi">VN</button><button type="button" data-setlang="ko" lang="ko">KO</button></div><a class="cta sm" href="#register">Register to bid</a><button class="menu" id="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button></div></div>
+<nav id="nav"><a href="#recap">Recap</a><a href="#auction">The lots</a><a href="#about">About</a><a href="#heritage">Heritage</a><a href="#impact">Why it matters</a><a href="#contact" data-contact-link>Contact</a><div class="lt lt-m" role="group" aria-label="Language"><button type="button" data-setlang="en" lang="en">English</button><button type="button" data-setlang="vi" lang="vi">Tiếng Việt</button><button type="button" data-setlang="ko" lang="ko">한국어</button></div></nav><div class="lt" role="group" aria-label="Language"><button type="button" data-setlang="en" lang="en">EN</button><button type="button" data-setlang="vi" lang="vi">VN</button><button type="button" data-setlang="ko" lang="ko">KO</button></div><a class="cta sm" href="#contact" data-contact-link>Hanoi · March 2027</a><button class="menu" id="menu" type="button" aria-label="Menu" aria-expanded="false" aria-controls="nav"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M2 5h16M2 10h16M2 15h16" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button></div></div>
 
 <div class="wrap">
 <div class="hero">
@@ -388,7 +395,7 @@ footer a{color:var(--muted)}
     <h1>Vietnamese and Chinese ceramics, certified and sold in the open.</h1>
     <p class="sub">VietAuction brings the antiques held in Vietnamese collections to a transparent local auction, with every piece appraised, numbered and catalogued.</p>
     <p class="natdb">Every item we offer is registered in the official national database.</p>
-    <div class="ctas"><a class="cta" href="#register">Register to bid</a><a class="cta ghost" href="#auction">Browse the lots</a></div>
+    <div class="ctas"><a class="cta" href="#recap">See the auction recap</a><a class="cta ghost" href="#auction">Browse the lots</a></div>
   </div>
 <figure class="show" style="margin:0" id="show" aria-roledescription="carousel" aria-label="Highlights from the auction">
     <div class="slides">
@@ -424,10 +431,18 @@ footer a{color:var(--muted)}
   </figure>
 </div>
 <div class="next">
-  <div class="l"><div class="lab">Next auction</div><div class="nm">Echoes of Time 2</div></div>
-  <dl><dt>Date</dt><dd>21 November 2026</dd><dt>Venue</dt><dd>La Vela Saigon Hotel, 25th floor</dd><dt>Lots</dt><dd>67 ceramics</dd></dl>
-  <a class="cta" href="#register">Register to bid</a>
+  <div class="l"><div class="lab">Next auction</div><div class="nm">Hanoi · March 2027</div></div>
+  <dl><dt>Date</dt><dd>March 2027</dd><dt>Venue</dt><dd>Hanoi</dd></dl>
+  <a class="cta" href="#contact" data-contact-link>Hear about it first</a>
 </div>
+
+<section id="recap">
+  <div class="eyebrow">Echoes of Time 2 · 21 November 2026</div>
+  <h2>Thank you for joining Echoes of Time 2</h2>
+  <p>On 21 November 2026, collectors and guests gathered on the 25th floor of La Vela Saigon Hotel in Ho Chi Minh City for Echoes of Time 2. Thank you to everyone who came to view the pieces, placed a bid and shared the day with us.</p>
+  <div class="recap-grid" id="recap-grid" hidden></div>
+  <p class="note">The lots offered that day remain in the catalogue below, with their photographs and descriptions.</p>
+</section>
 
 <section id="about">
   <div class="eyebrow">About VietAuction</div>
@@ -505,39 +520,10 @@ footer a{color:var(--muted)}
 
 <svg class="band" aria-hidden="true"><rect width="100%" height="20" fill="url(#sgp)"/></svg>
 <section id="register">
-  <div class="eyebrow">Bid with us</div>
-  <h2>Register to bid in Echoes of Time 2</h2>
-  <p>Registering is free and takes a minute. We use these details to reach you about this auction, and we never publish them.</p>
-  <div class="reg">
-    <div>
-      <ul class="why">
-        <li><span class="ic">1</span><div><b>Tell us how to reach you</b><span>A phone or Zalo number is enough to start. Email is optional.</span></div></li>
-        <li><span class="ic">2</span><div><b>We confirm your bidding options</b><span>Our team contacts you to confirm how you can bid and what to bring to be issued a paddle.</span></div></li>
-        <li><span class="ic">3</span><div><b>Hear first about what you collect</b><span>Choose the kinds of pieces you care about and we will tell you when matching lots and photographs are ready.</span></div></li>
-      </ul>
-      <p class="note">We do not ask for ID numbers online. If you win a lot, identity details are collected on the contract.</p>
-    </div>
-    <div>
-      <form class="rf" id="rf" novalidate>
-        <div class="demo" id="demo">Preview: submissions are not collected until the form is connected to our registration sheet.</div>
-        <div class="two">
-          <label><span>Full name<span class="req">*</span></span><input type="text" id="r-name" autocomplete="name" required></label>
-          <label><span>Phone or Zalo<span class="req">*</span></span><input type="tel" id="r-phone" autocomplete="tel" required></label>
-        </div>
-        <div class="two">
-          <label>Email (optional)<input type="email" id="r-email" autocomplete="email"></label>
-          <label>City<input type="text" id="r-city" autocomplete="address-level2"></label>
-        </div>
-        <label>How would you like to bid?<select id="r-how"><option>Not sure yet</option><option>In the room</option><option>By phone</option><option>Online</option></select></label>
-        <fieldset><legend>Interested in</legend><div class="opts" id="r-int"><label><input type="checkbox" value="Plates">Plates</label><label><input type="checkbox" value="Bowls">Bowls</label><label><input type="checkbox" value="Vases">Vases</label><label><input type="checkbox" value="Pots">Pots</label><label><input type="checkbox" value="Ewers">Ewers</label><label><input type="checkbox" value="Jars">Jars</label><label><input type="checkbox" value="Lidded boxes">Lidded boxes</label><label><input type="checkbox" value="Cups">Cups</label><label><input type="checkbox" value="Jarlets">Jarlets</label><label><input type="checkbox" value="Figurines">Figurines</label><label><input type="checkbox" value="Other works">Other works</label></div></fieldset>
-        <label>Questions, or a lot you are interested in<input type="text" id="r-note"></label>
-        <label class="agree"><input type="checkbox" id="r-ok"><span>I agree that VietAuction may contact me about its auctions and keep these details to do so.</span></label>
-        <div class="err" id="r-err" role="alert" hidden></div>
-        <div class="thanks" id="thanks" role="status" hidden><h3>Thank you, your registration is complete</h3><p>Our team will contact you on the number you gave. Keep an eye out for a message about Echoes of Time 2.</p></div>
-        <button class="cta" type="submit">Register to bid</button>
-      </form>
-    </div>
-  </div>
+  <div class="eyebrow">Registration</div>
+  <h2>Registration for Echoes of Time 2 is closed</h2>
+  <p>The auction took place on 21 November 2026. Our next auction will be held in Hanoi in March 2027. The date, venue and lots will be announced here soon. To hear first about the Hanoi auction, contact our team.</p>
+  <div class="ctas" style="margin-top:20px"><a class="cta" href="#contact" data-contact-link>Contact our team</a></div>
 </section>
 
 <section id="contact" hidden>
@@ -576,7 +562,7 @@ const eraL=e=>lang==='ko'&&e?e.replace(/(\d+)(st|nd|rd|th)/g,'$1').replace(/\s*c
 const origL=o=>lang==='vi'?(ORIGIN_VI[o]||o):lang==='ko'?(ORIGIN_KO[o]||o):o;
 const typeL=t=>lang==='vi'?(TYPE_VI[t]||t):lang==='ko'?(TYPE_KO[t]||t):t;
 const titleL=x=>lang==='vi'&&x.v?x.v:lang==='ko'&&x.kt?x.kt:x.n;
-const META={en:{t:'VietAuction · Antique ceramic auctions in Vietnam',d:'Echoes of Time 2, 21 November 2026: Vietnamese and Chinese antique ceramics, appraised, numbered and catalogued. Browse the lots and register to bid.'},ko:{t:'VietAuction · 베트남 고도자 경매',d:'Echoes of Time 2, 2026년 11월 21일: 감정을 거쳐 번호가 부여되고 도록에 수록된 베트남·중국 고도자기. 출품작을 둘러보고 응찰 등록을 하세요.'},vi:{t:'VietAuction · Đấu giá gốm sứ cổ tại Việt Nam',d:'Echoes of Time 2, ngày 21 tháng 11 năm 2026: gốm sứ cổ Việt Nam và Trung Hoa, được giám định, đánh số và lập danh mục. Xem các lô và đăng ký đấu giá.'}};
+const META={en:{t:'VietAuction · Antique ceramic auctions in Vietnam',d:'Echoes of Time 2 took place on 21 November 2026 in Ho Chi Minh City. Our next auction of Vietnamese and Chinese antique ceramics will be in Hanoi in March 2027.'},ko:{t:'VietAuction · 베트남 고도자 경매',d:'Echoes of Time 2 경매가 2026년 11월 21일 호치민시에서 열렸습니다. 베트남·중국 고도자기 다음 경매는 2027년 3월 하노이에서 열립니다.'},vi:{t:'VietAuction · Đấu giá gốm sứ cổ tại Việt Nam',d:'Echoes of Time 2 đã diễn ra ngày 21 tháng 11 năm 2026 tại TP. Hồ Chí Minh. Phiên đấu giá gốm sứ cổ Việt Nam và Trung Hoa tiếp theo sẽ diễn ra tại Hà Nội vào tháng 3 năm 2027.'}};
 const I18N_TEXT=new Map(),I18N_ATTR=[];
 function i18nCollect(){
   const skip=el=>el.closest('script,style,#sheet,.card,#fcount,.tl .yr em,.cat h3 small,#fc option[value]:not([value=""]),#fo option[value]:not([value=""]),#r-err,.next dd,#auction > p:not(.note)');
@@ -623,9 +609,8 @@ function heritageBucket(e){
 function syncPublicCounts(){
   const n=LOTS.length;
   const dds=document.querySelectorAll('.next dd');
-  if(dds[0])dds[0].textContent=L2('21 November 2026','21 tháng 11 năm 2026','2026년 11월 21일');
-  if(dds[1]){const q=encodeURIComponent('La Vela Saigon Hotel, 280 Nam Kỳ Khởi Nghĩa, Ho Chi Minh City');dds[1].innerHTML=L2('La Vela Saigon Hotel, 25th floor','Khách sạn La Vela Saigon, tầng 25','라벨라 사이공 호텔 25층')+'<br><a href="https://maps.google.com/?q='+q+'" rel="noopener">'+L2('280 Nam Kỳ Khởi Nghĩa, Xuân Hòa, Ho Chi Minh City','280 Nam Kỳ Khởi Nghĩa, Xuân Hòa, TP. Hồ Chí Minh','280 Nam Kỳ Khởi Nghĩa, Xuân Hòa, 호찌민시')+'</a>';}
-  if(dds[2])dds[2].textContent=L2(n+' ceramics',n+' hiện vật gốm sứ',n+'점의 도자기');
+  if(dds[0])dds[0].textContent=L2('March 2027, exact date coming soon','Tháng 3 năm 2027, ngày cụ thể sẽ sớm được công bố','2027년 3월, 정확한 날짜는 곧 안내 예정');
+  if(dds[1])dds[1].textContent=L2('Hanoi, venue coming soon','Hà Nội, địa điểm sẽ sớm được công bố','하노이, 장소는 곧 안내 예정');
   const intro=document.querySelector('#auction > p:not(.note)');
   if(intro)intro.textContent=L2(n+' ceramics from Vietnam, China and Japan, arranged by form and numbered as in the printed catalogue. Each lot shows its lot number and VietAuction item number. Starting prices are given in the printed catalogue and are not shown online.',n+' hiện vật gốm sứ Việt Nam, Trung Hoa và Nhật Bản, sắp xếp theo dáng loại, đánh số như trong catalogue in. Mỗi lô ghi số lô và mã hiện vật VietAuction. Giá khởi điểm chỉ có trong catalogue in và không hiển thị trực tuyến.',n+'점의 베트남·중국·일본 도자기를 기종별로 정리했으며, 번호는 인쇄 도록과 같습니다. 각 출품작에는 출품 번호와 VietAuction 물품 번호가 표시됩니다.');
   const map={'7-10':0,'11-14':0,'15-16':0,'17-19':0,'20':0};
@@ -677,9 +662,8 @@ function sheet(){
   const rows=[[L2('Type','Loại','종류'),typeL(x.t)],[L2('Century','Niên đại','시대'),eraL(x.e)],[L2('Origin','Xuất xứ','산지'),origL(x.o)],[L2('Size','Kích thước','크기'),x.d],[L2('Weight','Trọng lượng','무게'),x.g],[L2('Lot number','Số lô','출품 번호'),x.l],[L2('Provenance','Nguồn gốc','출처'),x.pv?L2('Documented, available on request','Có hồ sơ, cung cấp khi có yêu cầu','관련 기록 있음, 요청 시 제공'):'']].filter(r=>r[1]);
   const title=titleL(x), body=lang==='vi'&&x.dv?x.dv:lang==='ko'&&x.dk?x.dk:x.de;
   const alt=[lang==='en'?x.v:x.n,x.k].filter(s=>s&&s!==title).join(' · ');
-  $('sheet').innerHTML=`<div class="tp"><span class="sid">${x.l?L2('Lot ','Lô ','Lot ')+x.l+' · ':''}${x.id} · Echoes of Time 2</span><button class="btn" id="cl">${L2('Close','Đóng','닫기')}</button></div>${gallery(x)}<h3>${esc(title)}</h3>${alt?`<p class="alt">${esc(alt)}</p>`:''}<div class="lang" role="group" aria-label="${L2('Language','Ngôn ngữ','언어')}"><button data-l="en" aria-pressed="${lang==='en'}">English</button><button data-l="vi" aria-pressed="${lang==='vi'}">Tiếng Việt</button><button data-l="ko" aria-pressed="${lang==='ko'}">한국어</button></div>${body?`<p class="desc">${esc(body)}</p>`:''}<p class="natdb">${L2('Every item we offer is registered in the official national database.','Tất cả hiện vật chúng tôi đấu giá đều đã được đăng ký trong cơ sở dữ liệu quốc gia chính thức.','저희가 출품하는 모든 물품은 공식 국가 데이터베이스에 등록되어 있습니다.')}</p><dl class="spec">${rows.map(r=>`<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join('')}</dl><div><button class="cta" id="rg">${L2('Register to bid on this lot','Đăng ký đấu giá lô này','이 출품작 응찰 등록')}</button></div>${x.c.length?`<div><div class="alt" style="margin-bottom:6px">${L2('Certificates','Chứng thư','감정서')}</div><div class="certs">${x.c.map(c=>`<div class="cert">${esc(c)}</div>`).join('')}</div></div>`:''}`;
+  $('sheet').innerHTML=`<div class="tp"><span class="sid">${x.l?L2('Lot ','Lô ','Lot ')+x.l+' · ':''}${x.id} · Echoes of Time 2</span><button class="btn" id="cl">${L2('Close','Đóng','닫기')}</button></div>${gallery(x)}<h3>${esc(title)}</h3>${alt?`<p class="alt">${esc(alt)}</p>`:''}<div class="lang" role="group" aria-label="${L2('Language','Ngôn ngữ','언어')}"><button data-l="en" aria-pressed="${lang==='en'}">English</button><button data-l="vi" aria-pressed="${lang==='vi'}">Tiếng Việt</button><button data-l="ko" aria-pressed="${lang==='ko'}">한국어</button></div>${body?`<p class="desc">${esc(body)}</p>`:''}<p class="natdb">${L2('Every item we offer is registered in the official national database.','Tất cả hiện vật chúng tôi đấu giá đều đã được đăng ký trong cơ sở dữ liệu quốc gia chính thức.','저희가 출품하는 모든 물품은 공식 국가 데이터베이스에 등록되어 있습니다.')}</p><dl class="spec">${rows.map(r=>`<dt>${r[0]}</dt><dd>${esc(r[1])}</dd>`).join('')}</dl>${x.c.length?`<div><div class="alt" style="margin-bottom:6px">${L2('Certificates','Chứng thư','감정서')}</div><div class="certs">${x.c.map(c=>`<div class="cert">${esc(c)}</div>`).join('')}</div></div>`:''}`;
   $('cl').onclick=()=>$('dlg').close();enhanceSheet();
-  $('rg').onclick=()=>{$('dlg').close();$('r-note').value=L2('Interested in ','Quan tâm đến ','관심 출품작: ')+(x.l?L2('Lot ','Lô ','Lot ')+x.l+', ':'')+x.id+' ('+titleL(x)+')';document.getElementById('register').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'});$('r-name').focus({preventScroll:true})};
   $('sheet').querySelectorAll('.thumbs button').forEach(b=>b.onclick=()=>{ph=+b.dataset.i;sheet()});
   $('sheet').querySelectorAll('.lang button').forEach(b=>b.onclick=()=>setLang(b.dataset.l));
 }
@@ -754,10 +738,18 @@ function paintContact(){
   const f=[];if(CONTACT.name)f.push(esc(CONTACT.name));if(CONTACT.phone)f.push(`<a href="${tel(CONTACT.phone)}">${esc(CONTACT.phone)}</a>`);if(CONTACT.email)f.push(`<a href="mailto:${esc(CONTACT.email)}">${esc(CONTACT.email)}</a>`);
   $('foot-contact').innerHTML=f.join(' · ');
   /* until the registration sheet is connected, point people to a person instead of a form that saves nothing */
-  if(!REG_ENDPOINT&&CONTACT.phone){const t=`<a href="${tel(CONTACT.phone)}">${esc(CONTACT.phone)}</a>`;
+  if(!REG_ENDPOINT&&CONTACT.phone&&$('demo')){const t=`<a href="${tel(CONTACT.phone)}">${esc(CONTACT.phone)}</a>`;
     $('demo').innerHTML=L2(`To register now, call or Zalo ${esc(CONTACT.name||'our team')} at ${t}. Online registration opens soon.`,`Để đăng ký ngay, vui lòng gọi hoặc nhắn Zalo cho ${esc(CONTACT.name||'đội ngũ chúng tôi')} theo số ${t}. Đăng ký trực tuyến sẽ sớm mở.`,`지금 등록하시려면 ${esc(CONTACT.name||'담당자')}에게 전화 또는 Zalo로 연락해 주세요: ${t}. 온라인 등록은 곧 열립니다.`);}
 }
 paintContact();document.addEventListener('va-lang',paintContact);
+/* ---- post-auction update (Nov 2026): Echoes of Time 2 recap, registration closed, Hanoi March 2027 ---- */
+/* Recap photos from 21 November 2026. Add files under img/recap/ and list them here; the grid stays hidden while the list is empty. */
+const RECAP_PHOTOS=[];
+(function(){const g=$('recap-grid');if(!g||!RECAP_PHOTOS.length)return;
+  g.innerHTML=RECAP_PHOTOS.map(p=>`<figure><a href="${esc(p.full||p.src)}" target="_blank" rel="noopener"><img src="${esc(p.src)}" alt="${esc(p.alt||'')}" loading="lazy" decoding="async"></a></figure>`).join('');g.hidden=false;})();
+Object.assign(VI,{"Recap":"Nhìn lại","See the auction recap":"Xem lại phiên đấu giá","Next auction":"Phiên đấu giá tiếp theo","Hanoi · March 2027":"Hà Nội · Tháng 3 năm 2027","Hear about it first":"Nhận thông tin sớm nhất","Thank you for joining Echoes of Time 2":"Cảm ơn quý vị đã đến với Echoes of Time 2","On 21 November 2026, collectors and guests gathered on the 25th floor of La Vela Saigon Hotel in Ho Chi Minh City for Echoes of Time 2. Thank you to everyone who came to view the pieces, placed a bid and shared the day with us.":"Ngày 21 tháng 11 năm 2026, các nhà sưu tầm và khách mời đã cùng có mặt tại tầng 25 khách sạn La Vela Saigon, TP. Hồ Chí Minh, cho phiên đấu giá Echoes of Time 2. Xin cảm ơn tất cả quý vị đã đến chiêm ngưỡng hiện vật, tham gia đấu giá và đồng hành cùng chúng tôi trong ngày hôm ấy.","The lots offered that day remain in the catalogue below, with their photographs and descriptions.":"Các lô được đưa ra đấu giá hôm đó vẫn có trong danh mục bên dưới, kèm hình ảnh và mô tả.","Registration":"Đăng ký","Registration for Echoes of Time 2 is closed":"Đăng ký tham gia Echoes of Time 2 đã kết thúc","The auction took place on 21 November 2026. Our next auction will be held in Hanoi in March 2027. The date, venue and lots will be announced here soon. To hear first about the Hanoi auction, contact our team.":"Phiên đấu giá đã diễn ra vào ngày 21 tháng 11 năm 2026. Phiên đấu giá tiếp theo của chúng tôi sẽ được tổ chức tại Hà Nội vào tháng 3 năm 2027. Ngày, địa điểm và danh sách các lô sẽ sớm được công bố tại đây. Để nhận thông tin sớm nhất về phiên đấu giá tại Hà Nội, vui lòng liên hệ đội ngũ của chúng tôi.","Contact our team":"Liên hệ đội ngũ"});
+Object.assign(KO,{"Recap":"현장 스케치","See the auction recap":"경매 현장 보기","Next auction":"다음 경매","Hanoi · March 2027":"하노이 · 2027년 3월","Hear about it first":"가장 먼저 소식 받기","Thank you for joining Echoes of Time 2":"Echoes of Time 2에 함께해 주셔서 감사합니다","On 21 November 2026, collectors and guests gathered on the 25th floor of La Vela Saigon Hotel in Ho Chi Minh City for Echoes of Time 2. Thank you to everyone who came to view the pieces, placed a bid and shared the day with us.":"2026년 11월 21일, 호치민시 라벨라 사이공 호텔 25층에서 Echoes of Time 2 경매가 열렸습니다. 작품을 감상하고 응찰에 참여하며 이날을 함께해 주신 모든 분께 감사드립니다.","The lots offered that day remain in the catalogue below, with their photographs and descriptions.":"이날 출품된 작품은 사진, 설명과 함께 아래 도록에서 계속 보실 수 있습니다.","Registration":"등록","Registration for Echoes of Time 2 is closed":"Echoes of Time 2 응찰 등록이 마감되었습니다","The auction took place on 21 November 2026. Our next auction will be held in Hanoi in March 2027. The date, venue and lots will be announced here soon. To hear first about the Hanoi auction, contact our team.":"경매는 2026년 11월 21일에 진행되었습니다. 다음 경매는 2027년 3월 하노이에서 열릴 예정입니다. 일정, 장소 및 출품작은 곧 이곳에서 안내해 드리겠습니다. 하노이 경매 소식을 가장 먼저 받으시려면 담당자에게 문의해 주세요.","Contact our team":"담당자에게 문의"});
+
 /* mobile menu */
 $('menu').onclick=()=>{const o=$('top').classList.toggle('open');$('menu').setAttribute('aria-expanded',o)};
 $('nav').addEventListener('click',e=>{if(e.target.closest('a')){$('top').classList.remove('open');$('menu').setAttribute('aria-expanded','false')}});
@@ -795,29 +787,6 @@ i18nCollect();
 paintCards();
 setLang(lang);
 
-/* registration */
-$('rf').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const v=id=>$(id).value.trim();
-  const err=m=>{$('r-err').textContent=m;$('r-err').hidden=!m};
-  if(!v('r-name'))return err(L2('Please enter your name.','Vui lòng nhập họ tên.','성명을 입력해 주세요.'));
-  if(!v('r-phone')||v('r-phone').replace(/\D/g,'').length<8)return err(L2('Please enter a phone or Zalo number we can reach.','Vui lòng nhập số điện thoại hoặc Zalo để chúng tôi liên hệ.','연락 가능한 전화번호 또는 Zalo 번호를 입력해 주세요.'));
-  if(v('r-email')&&!/^\S+@\S+\.\S+$/.test(v('r-email')))return err(L2('That email address does not look right.','Địa chỉ email có vẻ chưa đúng.','이메일 주소가 올바르지 않은 것 같습니다.'));
-  if(!$('r-ok').checked)return err(L2('Please tick the box so we can contact you.','Vui lòng đánh dấu ô đồng ý để chúng tôi có thể liên hệ.','연락을 위해 동의란에 체크해 주세요.'));
-  err('');
-  const body={name:v('r-name'),phone:v('r-phone'),email:v('r-email'),city:v('r-city'),how:v('r-how'),interests:[...document.querySelectorAll('#r-int input:checked')].map(i=>i.value).join(', '),note:v('r-note'),auction:'Echoes of Time 2',at:new Date().toISOString()};
-  if(!REG_ENDPOINT&&CONTACT.phone){err(L2(`Online registration is not open yet. Please call or Zalo ${CONTACT.name||'our team'} at ${CONTACT.phone} and we will register you.`,`Đăng ký trực tuyến chưa mở. Vui lòng gọi hoặc nhắn Zalo cho ${CONTACT.name||'đội ngũ chúng tôi'} theo số ${CONTACT.phone} để được đăng ký.`,`온라인 등록은 아직 열리지 않았습니다. ${CONTACT.name||'담당자'}에게 ${CONTACT.phone}로 전화 또는 Zalo 주시면 등록해 드리겠습니다.`));return}
-  if(!REG_ENDPOINT){err(L2('Registration is not switched on in this preview. On the live site this sends your details to the VietAuction team.','Bản xem trước chưa bật chức năng đăng ký. Trên trang chính thức, thông tin của bạn sẽ được gửi đến đội ngũ VietAuction.','이 미리보기에서는 등록 기능이 꺼져 있습니다. 실제 사이트에서는 입력하신 정보가 VietAuction 팀에 전달됩니다.'));return}
-  const btn=$('rf').querySelector('button[type=submit]');
-  if(btn.disabled)return;
-  btn.disabled=true;btn.textContent=L2('Sending…','Đang gửi…','전송 중…');
-  try{await fetch(REG_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain'},body:JSON.stringify(body)});
-    $('rf').querySelectorAll('input,select,textarea').forEach(i=>i.disabled=true);
-    btn.textContent=L2('Registration complete','Đã đăng ký','등록 완료');$('rf').classList.add('done');
-    $('thanks').hidden=false;$('thanks').scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion:reduce)').matches?'auto':'smooth'})}
-  catch(x){btn.disabled=false;btn.textContent=L2('Register to bid','Đăng ký đấu giá','응찰 등록');err(L2('Sorry, that did not go through. Please try again in a moment.','Rất tiếc, gửi chưa thành công. Vui lòng thử lại sau ít phút.','죄송합니다. 전송되지 않았습니다. 잠시 후 다시 시도해 주세요.'))}
-});
-if(REG_ENDPOINT)$('demo').hidden=true;
 /* Hero slideshow: crossfades every 5 s, pauses on hover or focus, and stays still for reduced-motion users. HERO_PHOTOS holds lead shots from 6-photo plate lots. */
 (function(){
   const hiddenSrc=new Set();
