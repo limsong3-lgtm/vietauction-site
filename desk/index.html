@@ -669,7 +669,11 @@ $('ph_check').onclick=checkPhotos;
 async function checkPhotos(){$('ph_info').textContent='Checking…';await fetchPhotos(LOTS.map(l=>l.cert));let full=0;const missing=[];
   for(const l of LOTS){const p=await pickPhotos(l.cert);if(p.length>=3)full++;else missing.push(l.lot+' ('+p.length+')')}
   $('ph_info').innerHTML=`${full} of ${LOTS.length} lots have 3 photos.`+(missing.length?`<br><span class="flag">Fewer than 3 photos:</span> lot ${missing.join(', ')}`:' ✓')}
+let PHOTOS_P=null;
 async function fetchPhotos(certs){const need=[...new Set(certs)].filter(c=>c&&!EMBED_PHOTOS[c]);if(!need.length)return;
+  // contract photos are a static file next to this page (same website), with the Google backend as a fallback
+  try{if(!PHOTOS_P)PHOTOS_P=fetch('photos.json',{cache:'force-cache'}).then(r=>{if(!r.ok)throw new Error('HTTP '+r.status);return r.json()});Object.assign(EMBED_PHOTOS,await PHOTOS_P);return}
+  catch(e){PHOTOS_P=null}
   for(let i=0;i<need.length;i+=12){try{Object.assign(EMBED_PHOTOS,await api('getPhotos',need.slice(i,i+12)))}catch(e){toast('Photos could not be loaded: '+e.message)}}}
 async function preparePhotos(list){toast('Preparing photos…');await fetchPhotos(list.map(r=>lotInfo(r).cert));for(const r of list)await pickPhotos(lotInfo(r).cert)}
 function dims(l){return [l.h&&('H '+l.h+' mm'),l.w&&('W/Ø '+l.w+' mm')].filter(Boolean).join(' · ')}
