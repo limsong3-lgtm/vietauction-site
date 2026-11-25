@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex,nofollow">
+<title>VietAuction · Registration Desk</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root{
+  --navy:#0b1d3a; --navy2:#13294f; --gold:#c9a96a; --gold-d:#8a7346; --bg:#f6f3ec; --card:#fff; --ink:#1a1a1a;
+  --mute:#6b665c; --line:#e2dccf; --ok:#1e7a46; --warn:#b4541b; --err:#b42318;
+  --serif:"Didot","Bodoni 72","Baskerville","Hoefler Text",Georgia,"Times New Roman",serif;
+  --sans:"Helvetica Neue","Avenir Next",Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px}
+button,input,select,textarea{font:inherit;color:inherit}
+header.top{background:var(--navy);color:#f3efe6;display:flex;align-items:center;gap:18px;padding:10px 20px;position:sticky;top:0;z-index:5}
+header.top .brand{font-family:var(--serif);font-size:22px;letter-spacing:.06em}
+header.top .brand small{display:block;font-family:var(--sans);font-size:11px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
+nav.tabs{display:flex;gap:4px;margin-left:12px;flex-wrap:wrap}
+nav.tabs button{background:transparent;border:1px solid transparent;color:#cfc8b8;padding:8px 14px;border-radius:6px;cursor:pointer;font-size:14px}
+nav.tabs button[aria-selected="true"]{background:var(--navy2);border-color:var(--gold-d);color:#fff}
+header.top .stat{margin-left:auto;font-size:13px;color:#cfc8b8;text-align:right}
+header.top .stat b{color:var(--gold);font-size:18px;font-weight:600}
+main{max-width:1240px;margin:0 auto;padding:18px 20px 60px}
+section[hidden]{display:none}
+.grid2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:18px}
+@media (max-width:900px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.card h2{font-family:var(--serif);font-weight:400;font-size:22px;margin:0 0 4px}
+.card h2 small{font-family:var(--sans);font-size:13px;color:var(--mute);margin-left:8px}
+.sub{color:var(--mute);font-size:13px;margin:0 0 12px}
+.search{width:100%;font-size:20px;padding:12px 14px;border:2px solid var(--navy);border-radius:8px;background:#fff}
+.search:focus{outline:none;border-color:var(--gold)}
+.results{margin-top:10px;max-height:62vh;overflow:auto}
+.res{display:flex;align-items:center;gap:10px;padding:9px 10px;border-bottom:1px solid var(--line);cursor:pointer;border-radius:6px}
+.res:hover,.res.sel{background:#f3ead8}
+.res .nm{font-weight:600}
+.res .meta{font-size:12px;color:var(--mute)}
+.badge{font-size:11px;padding:2px 8px;border-radius:999px;border:1px solid var(--line);white-space:nowrap}
+.badge.reg{background:#e6f2ea;border-color:#b9dcc6;color:var(--ok)}
+.badge.past{background:#f6efe0;border-color:#e6d6b2;color:#7a5d20}
+.badge.buyer{background:#eef3fb;border-color:#c9d6ee;color:#23406f}
+.badge.paddle{background:var(--navy);color:#fff;border-color:var(--navy);font-weight:600}
+.res .right{margin-left:auto;display:flex;gap:6px;align-items:center}
+form .row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px;margin-bottom:10px}
+form .row.one{grid-template-columns:1fr}
+form .row.three{grid-template-columns:repeat(3,minmax(0,1fr))}
+label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--mute);letter-spacing:.02em}
+label b{color:var(--err);font-weight:400}
+input[type=text],input[type=email],input[type=tel],input[type=number],select,textarea{border:1px solid #cfc7b6;border-radius:6px;padding:9px 10px;background:#fff;font-size:15px;color:var(--ink);width:100%}
+input:focus,select:focus,textarea:focus{outline:none;border-color:var(--gold);box-shadow:0 0 0 3px #c9a96a33}
+textarea{min-height:56px;resize:vertical}
+.btn{border:1px solid #cfc7b6;background:#fff;padding:9px 14px;border-radius:6px;cursor:pointer;font-size:14px}
+.btn:hover{border-color:var(--navy)}
+.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy);font-size:16px;padding:12px 20px}
+.btn.primary:hover{background:var(--navy2)}
+.btn.gold{background:var(--gold);border-color:var(--gold);color:#1a1307}
+.btn.danger{color:var(--err)}
+.btn.sm{padding:5px 10px;font-size:13px}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:6px}
+.warn{background:#fdf1e7;border:1px solid #f0c9a8;color:var(--warn);padding:8px 12px;border-radius:6px;font-size:13px;margin-bottom:10px}
+.info{background:#eef3fb;border:1px solid #c9d6ee;color:#23406f;padding:8px 12px;border-radius:6px;font-size:13px;margin-bottom:10px}
+.done{text-align:center;padding:18px 10px}
+.done .num{font-family:var(--serif);font-size:120px;line-height:1;color:var(--navy)}
+.done .who{font-size:22px;margin-top:6px}
+.done .lbl{letter-spacing:.3em;text-transform:uppercase;font-size:12px;color:var(--gold-d)}
+table.t{width:100%;border-collapse:collapse;font-size:14px}
+table.t th{text-align:left;font-weight:600;font-size:12px;color:var(--mute);border-bottom:2px solid var(--line);padding:8px 6px;white-space:nowrap;position:sticky;top:0;background:#fff}
+table.t td{border-bottom:1px solid var(--line);padding:7px 6px;vertical-align:top}
+table.t tr.void td{color:#aaa;text-decoration:line-through}
+table.t td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tblwrap{max-height:66vh;overflow:auto;border:1px solid var(--line);border-radius:8px}
+.toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px}
+.toolbar input[type=text]{max-width:320px}
+.kpis{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:8px;padding:10px 14px;min-width:140px}
+.kpi b{display:block;font-family:var(--serif);font-size:26px;font-weight:400}
+.kpi span{font-size:12px;color:var(--mute)}
+.flag{color:var(--err);font-weight:600}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 18px;border-radius:8px;opacity:0;transition:opacity .25s;z-index:50;pointer-events:none}
+.toast.on{opacity:1}
+dialog{border:0;border-radius:12px;padding:0;max-width:720px;width:94vw}
+dialog::backdrop{background:#0b1d3a99}
+dialog .dh{background:var(--navy);color:#fff;padding:12px 18px;font-family:var(--serif);font-size:20px}
+dialog .db{padding:16px 18px}
+.small{font-size:12px;color:var(--mute)}
+.padrow{display:flex;gap:10px;align-items:flex-end}
+.padrow input{font-size:26px;font-weight:600;width:120px;text-align:center;color:var(--navy)}
+.padgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(54px,1fr));gap:6px;max-height:52vh;overflow:auto;padding:2px}
+.padgrid button{border:1px solid #cfc7b6;background:#fff;border-radius:6px;padding:9px 0;font-size:16px;font-weight:600;cursor:pointer;color:var(--navy)}
+.padgrid button:hover{border-color:var(--gold);background:#fbf5e8}
+.padgrid button.lucky{border-color:var(--gold);background:#fbf3df}
+.padgrid button:disabled{color:#c9c3b6;background:#f3f0e8;text-decoration:line-through;cursor:not-allowed;border-color:#ebe6da}
+.padgrid button.cur{background:var(--navy);color:#fff;border-color:var(--navy)}
+kbd{border:1px solid #cfc7b6;border-bottom-width:2px;border-radius:4px;padding:0 5px;font-size:12px;background:#fff}
+
+/* ---------- PRINT ---------- */
+#print{display:none}
+@media print{
+  @page{margin:12mm}
+  body{background:#fff}
+  header.top,main,.toast,dialog{display:none!important}
+  #print{display:block}
+  .pcard{width:100%;height:96vh;display:flex;flex-direction:column;align-items:center;justify-content:center;border:3px solid #0b1d3a;page-break-after:always;text-align:center;padding:20mm}
+  .pcard .ev{font-family:var(--serif);font-size:26pt;letter-spacing:.08em;color:#0b1d3a}
+  .pcard .ev2{font-size:12pt;letter-spacing:.25em;color:#8a7346;text-transform:uppercase;margin-top:4pt}
+  .pcard .n{font-family:var(--serif);font-size:300pt;line-height:1;color:#0b1d3a;margin:10mm 0}
+  .pcard .nm{font-size:22pt}
+  .pcard .ft{font-size:10pt;color:#555;margin-top:8mm}
+  .doc{font-size:10.5pt;line-height:1.45;page-break-after:always}
+  .doc h1{font-family:var(--serif);font-weight:400;font-size:20pt;margin:0 0 2pt;color:#0b1d3a}
+  .doc h3{font-size:11pt;margin:12pt 0 4pt;border-bottom:1px solid #999;padding-bottom:2pt;text-transform:uppercase;letter-spacing:.06em}
+  .doc table{width:100%;border-collapse:collapse}
+  .doc td,.doc th{border:1px solid #999;padding:4pt 6pt;text-align:left;vertical-align:top}
+  .doc th{background:#f0ece2;width:34%}
+  .doc .tot td{font-weight:700}
+  .doc .sig{display:flex;justify-content:space-between;margin-top:28pt}
+  .doc .sig div{width:44%;text-align:center;border-top:1px solid #333;padding-top:4pt;font-size:9.5pt}
+  .doc .hd{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #0b1d3a;padding-bottom:6pt;margin-bottom:8pt}
+  .doc .num{text-align:right;white-space:nowrap}
+  .contract{font-size:11.5pt;line-height:1.4;page-break-after:always;font-family:"Times New Roman",Times,serif;color:#000}
+  .contract .annex{display:flex;justify-content:space-between;font-weight:700;font-size:10.5pt}
+  .contract h1{text-align:center;font-size:17pt;margin:8pt 0 2pt;font-family:"Times New Roman",serif}
+  .contract h1 span{font-size:14pt}
+  .contract .no{text-align:center;margin:0 0 8pt}
+  .contract .rec{margin:0 0 3pt;font-style:italic}
+  .contract h3{font-size:12.5pt;margin:10pt 0 4pt;font-weight:700}
+  .contract h3 span{font-weight:400}
+  .contract h4{font-size:12pt;margin:6pt 0 2pt}
+  .contract table.kv{width:100%;border-collapse:collapse;margin-left:10pt}
+  .contract table.kv td{padding:1pt 4pt;vertical-align:top}
+  .contract table.kv td.lab{width:42%;white-space:nowrap}
+  .contract table.kv td.val{border-bottom:1px dotted #777;font-weight:600}
+  .contract .ref{margin:2pt 0 4pt 10pt;font-style:italic}
+  .contract p{margin:3pt 0}
+  .contract ul{margin:2pt 0 4pt;padding-left:18pt}
+  .contract li{margin:1.5pt 0}
+  .contract .item{margin-left:10pt;font-weight:600}
+  .contract .small2{font-weight:400;font-size:10.5pt}
+  .contract .phl{margin-top:4pt;font-style:italic}
+  .contract .photos{display:grid;grid-template-columns:repeat(3,1fr);gap:6pt;margin:4pt 0 6pt}
+  .contract .photos img,.contract .nophoto{width:100%;height:46mm;object-fit:contain;background:transparent}
+  .contract .nophoto{border:1px dashed #bbb}
+  .contract .phwrap{break-inside:avoid;page-break-inside:avoid}
+  .contract .nophoto{display:flex;align-items:center;justify-content:center;text-align:center;color:#999;font-size:10.5pt}
+  .contract table.money{width:100%;border-collapse:collapse;margin-top:4pt}
+  .contract table.money td{padding:2pt 4pt}
+  .contract table.money td.num{text-align:right;font-weight:600;white-space:nowrap}
+  .contract table.money tr.tot td{font-weight:700;border-top:1px solid #000}
+  .contract .sig3{display:flex;justify-content:space-between;gap:10pt;margin-top:10pt;text-align:center;page-break-inside:avoid}
+  .contract .sig3>div{flex:1}
+  .contract .sig3 .sp{height:26mm}
+}
+#login{position:fixed;inset:0;background:var(--navy);z-index:50;display:flex;align-items:center;justify-content:center}
+#login .box{background:#fff;border-radius:12px;padding:28px 30px;width:min(420px,92vw)}
+#login h1{font-family:var(--serif);font-weight:400;margin:0 0 4px;color:var(--navy)}
+#login label{display:flex;flex-direction:column;gap:4px;margin:12px 0;font-size:13px;color:var(--mute)}
+#login input{padding:12px;border:1px solid var(--line);border-radius:8px;font-size:18px}
+#login .err{color:var(--err);min-height:20px;font-size:14px}
+#netbar{position:fixed;left:0;right:0;bottom:0;z-index:40;padding:10px 16px;font-weight:600;text-align:center;color:#fff;background:#b42318;display:none}
+#netbar.on{display:block}
+#busy{position:fixed;inset:0;z-index:45;background:rgba(246,243,236,.55);display:none;align-items:center;justify-content:center;font-size:18px;color:var(--navy)}
+#busy.on{display:flex}
+@media print{#login,#netbar,#busy{display:none!important}}
+</style>
+</head>
+<body>
+<div id="login"><form class="box" id="lg">
+  <h1>Registration Desk</h1><p class="small" style="color:var(--mute);margin:0">VietAuction · every desk shares one guest list</p>
+  <label>Desk number (1, 2, 3…)<input name="desk" type="number" min="1" max="20" inputmode="numeric" required autocomplete="off"></label>
+  <label>Desk PIN<input name="pin" type="password" inputmode="numeric" required autocomplete="off"></label>
+  <div class="err" id="lg_err"></div>
+  <button class="btn primary" type="submit" style="width:100%;padding:12px;font-size:16px">Start</button>
+</form></div>
+<div id="netbar"></div><div id="busy">Saving…</div>
+<header class="top">
+  <div class="brand">VIETAUCTION<small>Registration Desk · <span id="h_event"></span></small></div>
+  <nav class="tabs" role="tablist">
+    <button data-tab="checkin" aria-selected="true">Check-in</button>
+    <button data-tab="guests">Guests</button>
+    <button data-tab="results">Results &amp; contracts</button>
+    <button data-tab="settings">Settings</button>
+  </nav>
+  <div class="stat"><b id="h_count">0</b> registered · desk <span id="h_desk"></span><br><span id="h_next"></span> · <span id="h_sync">connecting…</span></div>
+</header>
+
+<main>
+<!-- ================= CHECK-IN ================= -->
+<section id="tab_checkin">
+ <div class="grid2">
+  <div class="card">
+    <h2>Find guest <small>name, phone, email or paddle</small></h2>
+    <p class="sub">Pick a match to fill the form, or keep typing a new name and press <kbd>Enter</kbd> to start a new registration.</p>
+    <input id="q" class="search" placeholder="Type to search…" autocomplete="off" autofocus>
+    <div class="results" id="qres"></div>
+  </div>
+  <div class="card" id="formcard">
+    <h2 id="f_title">New registration</h2>
+    <p class="sub" id="f_sub">Required: name, ID or passport number, phone.</p>
+    <div id="f_warn"></div>
+    <form id="f" autocomplete="off">
+      <input type="hidden" name="id">
+      <div class="row one"><label>Full name / Họ và tên <b>*</b><input type="text" name="name" required autocapitalize="characters" style="text-transform:uppercase"><span class="small" style="color:#b3261e;font-weight:600">Must be exactly as written on the ID card / passport · Phải ghi đúng như trên CCCD / hộ chiếu</span></label></div>
+      <div class="row">
+        <label>ID / Passport no. · Số CCCD / Hộ chiếu <b>*</b><input type="text" name="idno" required></label>
+        <label>Nationality / Quốc tịch
+          <input type="text" name="nat" list="natlist" placeholder="Vietnam">
+          <datalist id="natlist"><option>Vietnam</option><option>Korea</option><option>China</option><option>Singapore</option><option>Japan</option><option>Taiwan</option><option>Hong Kong</option><option>USA</option><option>France</option><option>Russia</option><option>Australia</option><option>United Kingdom</option></datalist>
+        </label>
+      </div>
+      <div class="row">
+        <label>Phone / Zalo <b>*</b><input type="tel" name="phone" required></label>
+        <label>Email<input type="email" name="email"></label>
+      </div>
+      <div class="row one"><label>Address / Địa chỉ<input type="text" name="addr"></label></div>
+      <div class="row three">
+        <label>Deposit (million VND)<input type="text" name="dep" inputmode="decimal" placeholder="e.g. 50 = 50,000,000 ₫"></label>
+        <label>Deposit method
+          <select name="depm"><option value="">—</option><option>Cash</option><option>Bank transfer</option><option>Card</option><option>Waived</option></select>
+        </label>
+        <label>Guest type
+          <select name="type"><option>Bidder</option><option>VIP bidder</option><option>Phone/absentee bidder</option><option>Observer (no paddle)</option><option>Press</option></select>
+        </label>
+      </div>
+      <div class="row">
+        <label>Introduced by (dealer)<input type="text" name="ref" placeholder="for the 5% referral"></label>
+        <label>Received by (staff)<input type="text" name="staff"></label>
+      </div>
+      <div class="row one" id="padfield"><label>Paddle number / Số bảng (guest may choose any free number)
+        <div class="padrow"><input type="text" name="pad" inputmode="numeric" autocomplete="off"><button class="btn gold" type="button" id="f_choose">Show free numbers…</button><span class="small" id="f_padmsg"></span></div></label></div>
+      <div class="row one"><label>Notes<textarea name="note"></textarea></label></div>
+      <div class="row one"><label style="flex-direction:row;align-items:center;gap:8px;color:var(--ink);font-size:14px"><input type="checkbox" name="terms" style="width:18px;height:18px"> Guest has read and accepted the auction terms (paper form signed)</label></div>
+      <div class="actions">
+        <button class="btn primary" type="submit" id="f_submit">Register &amp; assign paddle</button>
+        <button class="btn" type="button" id="f_clear">Clear</button>
+        <span class="small" id="f_paddlehint"></span>
+      </div>
+    </form>
+    <div class="done" id="done" hidden>
+      <div class="lbl">Paddle number</div>
+      <div class="num" id="d_num"></div>
+      <div class="who" id="d_who"></div>
+      <div class="actions" style="justify-content:center;margin-top:14px">
+        <span class="small" id="d_hand" style="align-self:center">Hand the guest printed paddle <b id="d_hand_n"></b></span>
+        <button class="btn" id="d_slip">Print registration slip</button>
+        <button class="btn primary" id="d_next">Next guest</button>
+      </div>
+    </div>
+  </div>
+ </div>
+</section>
+
+<!-- ================= GUESTS ================= -->
+<section id="tab_guests" hidden>
+  <div class="card">
+    <h2>Registered guests</h2>
+    <div class="toolbar">
+      <input type="text" id="g_q" placeholder="Filter…">
+      <button class="btn" id="g_paddles">Export for “Paddles” tab (CSV)</button>
+      <button class="btn" id="g_copy">Copy rows for the sheet</button>
+      <span class="small" id="g_info"></span>
+    </div>
+    <div class="tblwrap"><table class="t" id="g_tbl"></table></div>
+  </div>
+</section>
+
+<!-- ================= RESULTS ================= -->
+<section id="tab_results" hidden>
+  <div class="card" style="margin-bottom:16px">
+    <h2>Sale results</h2>
+    <p class="sub">Every lot marked <b>SOLD</b> in the Auction Display app appears here automatically on every desk, with its paddle and hammer price. As a backup you can load the results CSV exported from the Auction Display app, or add a lot by hand.</p>
+    <div class="actions">
+      <label class="btn gold" style="flex-direction:row;color:#1a1307;font-size:14px">Load results CSV<input type="file" id="r_file" accept=".csv,text/csv" hidden></label>
+      <button class="btn" id="r_add">Add / edit a lot by hand</button>
+      <button class="btn" id="r_cd">Export “Contract Details” rows (CSV)</button>
+      <button class="btn" id="r_cdcopy">Copy rows for the sheet</button>
+      <button class="btn" id="r_printall">Print all contracts</button>
+      <span class="small" id="r_info"></span>
+    </div>
+  </div>
+  <div class="kpis" id="r_kpis"></div>
+  <div class="card">
+    <div class="toolbar"><input type="text" id="r_q" placeholder="Filter by lot, paddle or name…"><span class="small">Buyer premium <span id="r_prem"></span>% · amounts in VND</span></div>
+    <div class="tblwrap"><table class="t" id="r_tbl"></table></div>
+  </div>
+</section>
+
+<!-- ================= SETTINGS ================= -->
+<section id="tab_settings" hidden>
+ <div class="grid2">
+  <div class="card">
+    <h2>Auction settings</h2>
+    <p class="sub">Shared by every desk. The paddle range is split evenly between the desks (shown below), and each desk hands out its own numbers first. Numbers come from the shared list, so two desks never get the same one.</p><p class="small" id="s_blocks" style="margin:0 0 10px"></p>
+    <form id="s">
+      <div class="row">
+        <label>Number of registration desks<input type="number" name="desks" min="1" max="20"></label>
+        <label>Buyer premium %<input type="number" name="prem" step="0.5" min="0"></label>
+      </div>
+      <div class="row">
+        <label>First paddle number<input type="number" name="pStart" min="1" max="999"></label>
+        <label>Last paddle number<input type="number" name="pEnd" min="1" max="999"></label>
+      </div>
+      <div class="row one"><label>Skip these numbers (comma separated)<input type="text" name="pSkip" placeholder="e.g. 4, 13"></label></div>
+      <div class="row">
+        <label>Auction name<input type="text" name="event"></label>
+        <label>Date<input type="text" name="date"></label>
+      </div>
+      <div class="row one"><label>Venue<input type="text" name="venue"></label></div>
+      <h2 style="margin-top:18px">Sales contract</h2>
+      <p class="sub">Used on every printed Asset Sale Contract (Annex III). The contract number is the lot number followed by the suffix.</p>
+      <div class="row"><label>Seller name / Bên bán<input type="text" name="sName"></label><label>Seller ID no.<input type="text" name="sId"></label></div>
+      <div class="row"><label>Seller address<input type="text" name="sAddr"></label><label>Seller phone<input type="text" name="sPhone"></label></div>
+      <div class="row"><label>Contract no. suffix<input type="text" name="cSuffix"></label><label>AICR representative<input type="text" name="rep"></label></div>
+      <div class="row"><label>Event name (Vietnamese)<input type="text" name="evVN"></label><label>Event name (English)<input type="text" name="evEN"></label></div>
+            <div class="actions"><button class="btn primary" type="submit">Save settings</button></div>
+    </form>
+  </div>
+  <div class="card">
+    <h2>Connection</h2>
+    <p class="sub" id="cn_info"></p>
+    <h2 style="margin-top:22px">Backup</h2>
+    <p class="sub">Everything is saved in the shared Google Sheet as soon as you press Register. A backup file is only an extra copy.</p>
+    <div class="actions"><button class="btn gold" id="b_down">Download backup</button></div>
+    <h2 style="margin-top:22px">Contract photos</h2>
+    <p class="sub">Each contract shows 3 photos of the item, loaded from the shared photo file.</p>
+    <div class="actions"><button class="btn" id="ph_check">Check photos</button></div>
+    <p class="small" id="ph_info" style="margin-top:8px"></p>
+    <h2 style="margin-top:22px">Lots</h2>
+    <p class="sub"><span id="s_lots"></span> lots built into this page (lot number, certificate, title).</p>
+    <h2 style="margin-top:22px">New auction</h2>
+    <p class="sub">Removes all guests and sale results from the shared list, on every desk. The readable tabs in the Google Sheet are kept.</p>
+    <button class="btn danger" id="b_reset">Clear all guests and results…</button>
+    <button class="btn" id="b_logout" style="margin-left:8px">Sign this desk out</button>
+  </div>
+ </div>
+</section>
+</main>
+
+<dialog id="dlg"><div class="dh" id="dlg_h"></div><div class="db" id="dlg_b"></div></dialog>
+<div class="toast" id="toast"></div>
+<div id="print"></div>
+
+<script>
+const LOTS=[{"lot": 1, "cert": "SG260617PHDA01", "title": "Chu Dau Blue and White 'Songbird and Pine' plate", "cat": "Plate", "era": "15-16", "vn": "Đĩa Chu Đậu vẽ chim đang bay trong cơn gió", "origin": "Vietnam", "ovn": "Việt Nam", "h": "75", "w": "345", "start": 250}, {"lot": 2, "cert": "SG260617PHFA01", "title": "Rare Chu Dau Blue and White 'Kingfisher' Large Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Chu Đậu vẽ chim (chào mào)", "origin": "Vietnam", "ovn": "Việt Nam", "h": "70", "w": "337", "start": 480}, {"lot": 3, "cert": "SG260617PHDA09", "title": "Chinese Blue and White 'Sea Horses in Waves' Plate", "cat": "Plate", "era": "18", "vn": "Đĩa Gốm Sứ Cổ Hoa Lam Vẽ 'Hải Mã Đào Nguyên'", "origin": "China", "ovn": "Trung Quốc", "h": "35", "w": "215", "start": 55}, {"lot": 4, "cert": "SG260617DGHA02", "title": "A Rare Chinese Monochrome White Teapot, Ca Mau Shipwreck Cargo", "cat": "Pot", "era": "18", "vn": "Ấm Trà Sứ Men Trắng Cà Mau (Tàu Cổ Cà Mau c. 1725)", "origin": "China", "ovn": "Trung Quốc", "h": "90", "w": "", "start": 50}, {"lot": 5, "cert": "SG260617EHFA04", "title": "Rare Chinese White-Glazed Ewer", "cat": "Ewer", "era": "7-9", "vn": "Ấm / Bình Men Trắng Ngà Đơn Sắc", "origin": "China", "ovn": "Trung Quốc", "h": "196", "w": "", "start": 40}, {"lot": 6, "cert": "SG260617EHFA06", "title": "Chinese Straw and Iron-Spotted Glazed Ewer", "cat": "Ewer", "era": "7-9", "vn": "Ấm Gốm Men Vàng Ngà Điểm Vệt Sắt", "origin": "China", "ovn": "Trung Quốc", "h": "210", "w": "", "start": 80}, {"lot": 7, "cert": "SG260617KEDA01", "title": "Rare Appliqué-Decorated Pottery Ewer with Quadruple Handles", "cat": "Jar", "era": "7-9", "vn": "Ấm / Bình Gốm Đắp Nổi 'Hoa Văn Lá Đề' Quai Đôi", "origin": "China", "ovn": "Trung Quốc", "h": "230", "w": "", "start": 52}, {"lot": 8, "cert": "SG260617DGHA01", "title": "Rare Lidded Blue and White Lobed Teapot", "cat": "Pot", "era": "18", "vn": "Ấm Trà Sứ Hoa Lam Dáng Múi Khế Có Nắp, 'Đồ Sứ Ký Kiểu'", "origin": "China", "ovn": "Trung Quốc", "h": "105", "w": "", "start": 100}, {"lot": 9, "cert": "SG260617KEDA03", "title": "Chinese Blue and White Lidded Double-Gourd 'Buddhist Lions' Jar", "cat": "Jarlet", "era": "18", "vn": "Bình / Hũ Có Nắp Sứ Hoa Lam Vẽ 'Mỹ Nhân', Hiệu Đề 'Nấm Linh Chi'", "origin": "China", "ovn": "Trung Quốc", "h": "195", "w": "", "start": 150}, {"lot": 10, "cert": "SG260617VFGA04", "title": "A Fine Japanese Blue and White 'Prunus Blossom' Long-Necked Bottle Vase", "cat": "Vase", "era": "16-17", "vn": "Bình Cổ Dài Gốm Chu Đậu Hoa Lam Vẽ 'Cành Hoa Mai'", "origin": "Japan", "ovn": "Nhật Bản", "h": "290", "w": "153", "start": 60}, {"lot": 11, "cert": "SG260617EHFA02", "title": "Chu Dau Blue and White Reticulated 'Crane' Ewer", "cat": "Ewer", "era": "15-16", "vn": "Ấm Gốm Chu Đậu Hoa Lam Trổ Thủng 'Quai Rồng & Bạch Hạc'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "252", "w": "115", "start": 500}, {"lot": 12, "cert": "SG260617DGHA04", "title": "A Blue-and-White 'Bird and Peony' Water Ewer", "cat": "Pot", "era": "19-20", "vn": "Ấm men xanh trắng vẽ chim và hoa cúc.", "origin": "China", "ovn": "Trung Quốc", "h": "165", "w": "115", "start": 80}, {"lot": 13, "cert": "SG260617EHFA03", "title": "Chu Dau Blue and White Reticulated 'Floral' Ewer", "cat": "Ewer", "era": "15-16", "vn": "Am Ngọc Lam Long Thủ Phù Điêu", "origin": "Vietnam", "ovn": "Việt Nam", "h": "230", "w": "110", "start": 400}, {"lot": 14, "cert": "SG260617EHFA07", "title": "Rare Chu Dau Blue and White 'Qilin' Kendi", "cat": "Ewer", "era": "15", "vn": "Kendi (Ấm Rót) Gốm Chu Đậu Hoa Lam Vẽ 'Kỳ Lân", "origin": "Vietnam", "ovn": "Việt Nam", "h": "165", "w": "", "start": 700}, {"lot": 15, "cert": "SG260617KEDA02", "title": "Chinese Blue and White Lidded Double-Gourd 'Buddhist Lions' Jar", "cat": "Jar", "era": "19-20", "vn": "Bình Hồ Lô Có Nắp Sứ Hoa Lam Vẽ 'Lân Vờn Cầu', Hiệu Đề 'Khang Hi Niên Chế'", "origin": "China", "ovn": "Trung Quốc", "h": "320", "w": "", "start": 200}, {"lot": 16, "cert": "SG260617LHEA01", "title": "Rare Large Chu Dau Blue and White 'Landscape' Covered Box", "cat": "Lidded Box", "era": "15-16", "vn": "Hộp phấn Chu Đậu vẽ sơn thuỷ.", "origin": "Vietnam", "ovn": "Việt Nam", "h": "120", "w": "150", "start": 150}, {"lot": 17, "cert": "SG260617BJTA08", "title": "Fine Chu Dau Blue and White 'Chrysanthemum' Jar", "cat": "Jar", "era": "15", "vn": "Thố / Thau Gốm Chu Đậu Hoa Lam Vẽ 'Hoa Cúc Dây'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "115", "w": "175", "start": 200}, {"lot": 18, "cert": "SG260617LHEA02", "title": "Rare Chu Dau Blue and White 'Flying Birds' Covered Jar", "cat": "Lidded Box", "era": "15-16", "vn": "Hũ Có Nắp Gốm Chu Đậu Hoa Lam Vẽ 'Phi Điểu'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "70", "w": "", "start": 40}, {"lot": 19, "cert": "SG260617PHDA02", "title": "Fine Kraak Blue and White 'Scholar and Landscape' Charger", "cat": "Plate", "era": "16", "vn": "Đĩa Lớn Gốm Sứ Hoa Lam Kraak Vẽ 'Văn Nhân Sơn Thủy'", "origin": "China", "ovn": "Trung Quốc", "h": "65", "w": "360", "start": 160}, {"lot": 20, "cert": "SG260617PHDA03", "title": "Fine Chinese Blue and White 'Lotus Scroll' Dish", "cat": "Plate", "era": "17-18", "vn": "Đĩa Gốm Sứ Hoa Lam Cảnh Đức Trấn Vẽ 'Triền Chi Liên'", "origin": "China", "ovn": "Trung Quốc", "h": "40", "w": "225", "start": 35}, {"lot": 21, "cert": "SG260617PHDA04", "title": "Longquan Celadon 'Carved Floral' Plate", "cat": "Plate", "era": "14-15", "vn": "Đĩa Gốm Cổ Long Tuyền Am Khắc 'Hoa Mẫu Đơn / Hoa Sen'", "origin": "China", "ovn": "Trung Quốc", "h": "55", "w": "250", "start": 80}, {"lot": 22, "cert": "SG260617PHDA08", "title": "Chinese 'Swatow' Celadon and White Slip Decorated plate", "cat": "Plate", "era": "14-15", "vn": "Đĩa Minh ám hoạ nổi bông cúc", "origin": "China", "ovn": "Trung Quốc", "h": "60", "w": "310", "start": 60}, {"lot": 23, "cert": "SG260617PHDA06", "title": "Chu Dau Polychrome Enamel 'Songbird and Plum'", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Tam Thái / Tam Sắc Vẽ 'Hoa Bird / Trúc Điểu'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "80", "w": "358", "start": 150}, {"lot": 24, "cert": "SG260617PHDA07", "title": "Chinese 'Swatow' Polychrome Enamel 'Bird and Peach' Plate", "cat": "Plate", "era": "16-17", "vn": "Đĩa Gốm Cổ \"Swatow\" (Trương Châu) Vẽ Tam Thái 'Trúc Điểu & Đào'", "origin": "China", "ovn": "Trung Quốc", "h": "80", "w": "383", "start": 100}, {"lot": 25, "cert": "SG260617PHDA10", "title": "Blue and White 'Deshima / Dutch Landscape' Export Plate", "cat": "Plate", "era": "18", "vn": "Đĩa Gốm Sứ Cổ Hoa Lam Bờ Đảo 'Deshima / Phong Cảnh Hà Lan'", "origin": "China", "ovn": "Trung Quốc", "h": "32", "w": "290", "start": 60}, {"lot": 26, "cert": "SG260617PHDA13", "title": "Chu Dau Blue and White 'Lotus Bouquet' Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Hoa Lam Vẽ 'Bó Hoa Sen / Liên Hoa'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "70", "w": "335", "start": 100}, {"lot": 27, "cert": "SG260617PHDA14", "title": "Chu Dau Blue and White 'Chrysanthemum' Plate", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Hoa Lam Vẽ 'Hoa Cúc' (Cúc Dây)", "origin": "Vietnam", "ovn": "Việt Nam", "h": "65", "w": "338", "start": 70}, {"lot": 28, "cert": "SG260617PHDA15", "title": "Chu Dau Blue and White 'Songbird and Peach' plate", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Hoa Lam Vẽ 'Điểu Tráp Đào'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "72", "w": "345", "start": 350}, {"lot": 29, "cert": "SG260617PHDA16", "title": "Rare Chu Dau Blue and White 'Crane in Clouds' plate", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Hoa Lam Vẽ 'Bạch Hạc Vân Mây'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "80", "w": "355", "start": 250}, {"lot": 30, "cert": "SG260617PHDA17", "title": "Chu Dau Polychrome Enamel 'Landscape' Dish", "cat": "Plate", "era": "15", "vn": "Đĩa Gốm Chu Đậu Tam Thái / Tam Sắc Vẽ 'Sơn Thủy Cảnh'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "72", "w": "368", "start": 750}, {"lot": 31, "cert": "SG260617PHDA19", "title": "Chu Dau Blue and White 'Floral Spray' Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Hoa Lam Vẽ 'Hoa Dây", "origin": "Vietnam", "ovn": "Việt Nam", "h": "80", "w": "360", "start": 70}, {"lot": 32, "cert": "SG260617PVFA04", "title": "Blue and White Songbird and Bamboo Plate", "cat": "Plate", "era": "15-16", "vn": "Đĩa gốm Chu Đậu hoa lam vẽ Chim và Trúc", "origin": "Vietnam", "ovn": "Việt Nam", "h": "75", "w": "340", "start": 300}, {"lot": 33, "cert": "SG260617PVFA01", "title": "Chu Dau Dragon-Fish Plate", "cat": "Plate", "era": "15", "vn": "Đĩa gốm Chu Đậu vẽ Cá Rồng", "origin": "Vietnam", "ovn": "Việt Nam", "h": "90", "w": "430", "start": 700}, {"lot": 34, "cert": "SG260617PVFA03", "title": "Large Chu Dau Blue and White 'Phoenix' Plate", "cat": "Plate", "era": "15-16", "vn": "Đĩa Lớn Gốm Chu Đậu Hoa Lam Vẽ 'Phượng Hoàng Mây Vờn'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "76", "w": "350", "start": 300}, {"lot": 35, "cert": "SG260617VFGA01", "title": "Chu Dau Blue and White Pear-Shaped Vase", "cat": "Vase", "era": "15-16", "vn": "Bình gốm hoa lam", "origin": "Vietnam", "ovn": "Việt Nam", "h": "295", "w": "", "start": 52}, {"lot": 36, "cert": "SG260617VFGA02", "title": "Blue and White 'Birds in Flight' Pear-Shaped Bottle Vase", "cat": "Vase", "era": "15-16", "vn": "Bình gốm hoa lam Nhạn Vân Mây", "origin": "Vietnam", "ovn": "Việt Nam", "h": "300", "w": "", "start": 52}, {"lot": 37, "cert": "SG260617VFGA06", "title": "Rare Chu Dau Blue and White Double-Gourd Bottle Vase", "cat": "Vase", "era": "15", "vn": "Bình Dáng Hồ Lô / Cổ Cò Gốm Chu Đậu Hoa Lam Vẽ 'Sơn Thủy Trúc Cỏ'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "220", "w": "124", "start": 450}, {"lot": 38, "cert": "SG260617VFGA03", "title": "Chinese Blue and White 'Mythical Marine Beasts and Floral' Bottle Vase", "cat": "Vase", "era": "19-20", "vn": "Bình Dáng Tỏi Gốm Sứ Hoa Lam Vẽ 'Hải Mã Vân Sóng & Ô Hoa Cúc'", "origin": "China", "ovn": "Trung Quốc", "h": "310", "w": "", "start": 140}, {"lot": 39, "cert": "SG260617VHRA01", "title": "Rare Vietnamese Commissioned Blue and White 'Red Cliff Ode' Gu-Shaped Vase", "cat": "Vase", "era": "19", "vn": "Lục Bình Dáng Cổ Lô Gốm Sứ Ký Kiểu Thời Lê - Trịnh Cảm Tác 'Hậu Xích Bích Phú' & 'Văn Nhân'", "origin": "China", "ovn": "Trung Quốc", "h": "450", "w": "", "start": 150}, {"lot": 40, "cert": "SG260617VHRA02", "title": "Blue and White 'Landscape and Scholar' Vase", "cat": "Vase", "era": "19", "vn": "Lọ dáng ru lô (TQ). Vẽ tích Thiên hạ thái bình", "origin": "China", "ovn": "Trung Quốc", "h": "330", "w": "", "start": 120}, {"lot": 41, "cert": "SG261006EEAA01", "title": "Japanese Blue and White Kendi Water Vessel", "cat": "Ewer", "era": "15-16", "vn": "Ấm / Bình Kendi Gốm Hoa Lam Nhật Bản", "origin": "Japan", "ovn": "Nhật Bản", "h": "215", "w": "80", "start": 70}, {"lot": 42, "cert": "SG261006VSDA01", "title": "Chinese Blue and White Qing Dynasty vase with lid", "cat": "Vase", "era": "19", "vn": "Bình Có Nắp Gốm Hoa Lam Trung Quốc Thời Thanh", "origin": "China", "ovn": "Trung Quốc", "h": "280", "w": "57", "start": 75}, {"lot": 43, "cert": "SG260819PCCA02", "title": "Chu Dau Polychrome Enamel 'Prawn' Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Tam Thái Vẽ Tôm", "origin": "Vietnam", "ovn": "Việt Nam", "h": "80", "w": "340", "start": 150}, {"lot": 44, "cert": "SG260819PCCA04", "title": "Chu Dau Polychrome Enamel 'Landscape' Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Tam Thái / Tam Sắc Vẽ 'Sơn Thủy Cảnh'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "80", "w": "350", "start": 220}, {"lot": 45, "cert": "SG260819PCCA03", "title": "Chu Dau Polychrome Enamel 'Landscape and Floral' Dish", "cat": "Plate", "era": "15", "vn": "Đĩa Gốm Chu Đậu Tam Thái / Tam Sắc Vẽ 'Sơn Thủy & Hoa Lá'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "80", "w": "350", "start": 150}, {"lot": 46, "cert": "SG260819PCCA01", "title": "Chu Dau Polychrome Enamel 'Chrysanthemum' Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Tam Thái / Tam Sắc Vẽ 'Hoa Cúc Đại Đóa'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "75", "w": "350", "start": 500}, {"lot": 47, "cert": "SG260819PCCA05", "title": "Chu Dau Polychrome Enamel 'Songbird and Blossom' Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Tam Thái / Tam Sắc Vẽ 'Sơn Thủy Cổ Tùng'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "100", "w": "430", "start": 350}, {"lot": 48, "cert": "SG260819PCCA06", "title": "Chu Dau Blue and White 'Cloud Scroll' Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Hoa Lam Vẽ 'Vân Mây Cát Tường'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "80", "w": "345", "start": 200}, {"lot": 49, "cert": "SG260819PCCA07", "title": "Chu Dau Blue and White 'Floral Spray' Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Chu Đậu Hoa Lam Vẽ 'Hoa Dây / Cúc Dây'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "80", "w": "345", "start": 120}, {"lot": 50, "cert": "SG261007BBBA01", "title": "Blue and White Stoneware Bowl", "cat": "Bowl", "era": "15-17", "vn": "Bát Gốm Hoa Lam", "origin": "Vietnam", "ovn": "Việt Nam", "h": "92", "w": "183", "start": 45}, {"lot": 51, "cert": "SG261007BBBA02", "title": "Longquan-Style Celadon Bowl", "cat": "Bowl", "era": "13-14", "vn": "Bát Gốm Men Ngọc", "origin": "Vietnam", "ovn": "Việt Nam", "h": "65", "w": "167", "start": 60}, {"lot": 52, "cert": "SG261007PCSA01", "title": "Longquan-Style Celadon Shallow Charger", "cat": "Plate", "era": "14-15", "vn": "Đĩa Gốm Men Ngọc", "origin": "Vietnam", "ovn": "Việt Nam", "h": "58", "w": "308", "start": 65}, {"lot": 53, "cert": "SG261007PCSA02", "title": "Blue and White Stoneware Dish", "cat": "Plate", "era": "14-15", "vn": "Đĩa Gốm Hoa Lam Chu Đậu", "origin": "Vietnam", "ovn": "Việt Nam", "h": "57", "w": "295", "start": 45}, {"lot": 54, "cert": "SG261007PCSA03", "title": "Blue and White Stoneware Dish", "cat": "Plate", "era": "14-15", "vn": "Đĩa Gốm Hoa Lam Chu Đậu", "origin": "Vietnam", "ovn": "Việt Nam", "h": "50", "w": "283", "start": 45}, {"lot": 55, "cert": "SG261007PCSA04", "title": "Overglaze Enamel and Underglaze Cobalt Blue Dish", "cat": "Plate", "era": "15-16", "vn": "Đĩa Gốm Tam Thái", "origin": "China", "ovn": "Trung Quốc", "h": "80", "w": "400", "start": 150}, {"lot": 56, "cert": "SG261007PCSA05", "title": "Blue and White Stoneware Dish with Peony Spray", "cat": "Plate", "era": "15-16", "vn": "Đĩa gốm hoa lam Chu Đậu vẽ mẫu đơn", "origin": "Vietnam", "ovn": "Việt Nam", "h": "65", "w": "330", "start": 100}, {"lot": 57, "cert": "SG261007PCSA06", "title": "Blue and White Dish with Water Fowl", "cat": "Plate", "era": "15-16", "vn": "Đĩa gốm hoa lam Chu Đậu vẽ chim nước", "origin": "Vietnam", "ovn": "Việt Nam", "h": "75", "w": "336", "start": 130}, {"lot": 58, "cert": "SG260617BVFA08", "title": "Rare Chinese Blue and White 'Front-Facing Dragon' Bowl", "cat": "Bowl", "era": "19", "vn": "Tô ( bát) trong lòng bát vẽ rồng, ngoài thành bát vẽ người.", "origin": "China", "ovn": "Trung Quốc", "h": "70", "w": "170", "start": 80}, {"lot": 59, "cert": "SG260617BJTA02", "title": "Imperial Commissioned Blue and White 'Dragon' Bowl", "cat": "Bowl", "era": "19", "vn": "Bát Sứ Hoa Lam Bọc Kim Loại Vẽ 'Long Vân' (Đồ Sứ Ký Kiểu)", "origin": "China", "ovn": "Trung Quốc", "h": "80", "w": "200", "start": 80}, {"lot": 60, "cert": "SG260617VFGA05", "title": "Imperial Commissioned Blue and White 'Five-Clawed Dragon' Bottle Vase", "cat": "Vase", "era": "19", "vn": "Bình Cổ Cò Gốm Sứ Ký Kiểu Thời Lê - Trịnh Vẽ 'Long Vân / Rồng 5 Móng'", "origin": "China", "ovn": "Việt Nam", "h": "190", "w": "108", "start": 180}, {"lot": 61, "cert": "SG260617BRYA02", "title": "A Rare \"Imperial Double Dragons\" Porcelain Bowl", "cat": "Bowl", "era": "19", "vn": "Bát sứ cỡ trung, men trắng vẽ họa tiết \"Ngũ Long Tranh Châu\" màu lam dưới men, bát hệ Ngự dụng", "origin": "China", "ovn": "Trung Quốc", "h": "70", "w": "150", "start": 360}, {"lot": 62, "cert": "SG260617BJTA06", "title": "Imperial Chinese Green Jade Chrysanthemum Fluted Bowl", "cat": "Bowl", "era": "19", "vn": "Bát Ngọc Bích Khía Múi Hoa Cúc Khắc Chữ Kim 'Minh Mệnh'", "origin": "Vietnam", "ovn": "Việt Nam", "h": "50", "w": "135", "start": 400}, {"lot": 63, "cert": "SG260617ATXA01", "title": "Rare Imperial White Jade Tripod Incense Censer", "cat": "Censer", "era": "19", "vn": "Lư Hương Ba Chân Ngọc Trắng Tinh Cung Đình Nguyễn", "origin": "Vietnam", "ovn": "Việt Nam", "h": "70", "w": "170", "start": 3600}];
+let PAST=[];
+const KEY='vietauction_registration_v1';
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'').replace(/đ/g,'d').replace(/\s+/g,' ').trim();
+const digits=s=>String(s||'').replace(/\D/g,'');
+const vnd=n=>n==null||n===''||isNaN(n)?'':Math.round(n).toLocaleString('en-US');
+const lotByNo=Object.fromEntries(LOTS.map(l=>[String(l.lot),l]));
+const lotByCert=Object.fromEntries(LOTS.map(l=>[l.cert,l]));
+
+/* ---------- state ---------- */
+const DEF={settings:{desk:'A',prem:5,pStart:1,pEnd:99,pSkip:'',event:'Echoes of Time II',date:'21/11/2026',venue:'Venus D Hall, La Vela Saigon Hotel, 280 Nam Kỳ Khởi Nghĩa, HCMC',
+  sName:'Ngô Thị Thương',sId:'048163000083',sAddr:'19(T1) Nguyễn Thái Bình, phường Bến Thành, TP Hồ Chí Minh',sPhone:'0905499346',
+  cSuffix:'/2026/HĐMB-CVTĐG',evVN:'Nghệ thuật gốm sứ: Tiếng vọng thời gian II',evEN:'Ceramic Legacies: Echoes of Time II',reserveDate:'',rep:'Song Lim',sellerFee:15,syncUrl:'',syncToken:'va-a21f3b44bc82df21'},guests:[],results:{},lastBackup:null};
+let S=structuredClone(DEF);S.settings.desk=localStorage.getItem(KEY+'_desk')||'';
+let PIN=localStorage.getItem(KEY+'_pin')||'',VER=null,online=false,lastOkAt=0;
+const LOCAL_KEYS=['desk'];
+function save(){renderHeader()}   // data is saved on the server; this only refreshes the header
+function applyState(st){if(!st||st.same)return false;VER=st.v;const desk=S.settings.desk;
+  S.settings={...DEF.settings,...st.settings,desk};S.guests=st.guests||[];
+  S.results=Object.fromEntries((st.results||[]).map(r=>[String(r.lot),r]));
+  try{localStorage.setItem(KEY+'_cache',JSON.stringify({at:new Date().toISOString(),settings:S.settings,guests:S.guests,results:S.results}))}catch(e){}
+  return true}
+const BACKEND='https://script.google.com/macros/s/AKfycbx3a4Qy5ga0BXV0UgIfRb9094SvQV0yOpwu6tHJpDSEP1yxYdlgwe8bq6ocJcWiy1elJw/exec';
+let jpN=0;
+function api(fn,...args){return new Promise((res,rej)=>{
+  const cb='__rd'+Date.now().toString(36)+(jpN++),sc=document.createElement('script');let done=false;
+  const fin=()=>{done=true;clearTimeout(to);delete window[cb];sc.remove()};
+  const to=setTimeout(()=>{if(done)return;fin();setOnline(false);rej(new Error('No answer from the server. Check the internet connection.'))},30000);
+  window[cb]=d=>{if(done)return;fin();setOnline(true);
+    if(d&&d.ok){res(d.v);return}
+    const m=String(d&&d.error||'Server error');
+    if(/WRONG_PIN/.test(m)){showLogin('The desk PIN has changed. Enter the new PIN.');rej(new Error('Wrong PIN'));return}
+    rej(new Error(m.replace(/^Exception: /,'').replace(/^Error: /,'')))};
+  sc.onerror=()=>{if(done)return;fin();setOnline(false);rej(new Error('No internet connection.'))};
+  sc.src=BACKEND+'?api=call&fn='+encodeURIComponent(fn)+'&pin='+encodeURIComponent(PIN)+'&args='+encodeURIComponent(JSON.stringify(args))+'&callback='+cb;
+  document.head.appendChild(sc)})}
+function setOnline(ok){online=ok;if(ok)lastOkAt=Date.now();const b=$('netbar');
+  if(ok){b.classList.remove('on')}else{b.textContent='⚠ No internet connection. Registrations are NOT being saved. Check the Wi-Fi, then press Register again.';b.classList.add('on')}
+  const el=$('h_sync');if(el){el.textContent=ok?'● shared list connected':'● OFFLINE';el.style.color=ok?'#8fd1a6':'#ff8a80'}}
+function busy(on){$('busy').classList.toggle('on',!!on)}
+function refreshViews(){renderHeader();try{if(!$('tab_guests').hidden)renderGuests()}catch(e){}try{if(!$('tab_results').hidden)renderResults()}catch(e){}
+  try{if($('q').value.trim())runSearch()}catch(e){}try{if(!F.hidden&&!F.id.value&&F.pad.dataset.auto===F.pad.value){const n=nextPaddle();F.pad.value=n||'';F.pad.dataset.auto=F.pad.value;padMsg()}else if(!F.hidden)padMsg()}catch(e){}}
+let polling=false,knownResults=null;
+async function poll(){if(polling||!PIN)return;polling=true;
+  try{const st=await api('getState',VER);if(applyState(st)){notifyNewResults();refreshViews()}}catch(e){}
+  finally{polling=false}}
+function notifyNewResults(){const lots=Object.keys(S.results);if(knownResults){for(const l of lots)if(!knownResults.has(l)){const r=S.results[l],g=byPaddle(r.paddle);toast(`Lot ${l} SOLD to paddle ${r.paddle}${g?' · '+g.name:' · NOT REGISTERED'} · ${M(r.hammer)}`)}}knownResults=new Set(lots)}
+setInterval(poll,3000);
+addEventListener('online',poll);
+function showLogin(msg){$('login').style.display='flex';$('lg_err').textContent=msg||'';$('lg').desk.value=S.settings.desk||$('lg').desk.value||'';$('lg').pin.value='';setTimeout(()=>($('lg').desk.value?$('lg').pin:$('lg').desk).focus(),50)}
+$('lg').onsubmit=async e=>{e.preventDefault();const d=$('lg').desk.value.trim(),p=$('lg').pin.value.trim();if(!d||!p)return;
+  $('lg_err').textContent='Connecting…';PIN=p;
+  try{const r=await api('deskLogin',d);localStorage.setItem(KEY+'_pin',p);localStorage.setItem(KEY+'_desk',d);S.settings.desk=d;PAST=r.past||[];
+    VER=null;applyState(r.state);knownResults=new Set(Object.keys(S.results));$('login').style.display='none';startNew();refreshViews();showTab('checkin')}
+  catch(err){PIN='';$('lg_err').textContent=/Wrong PIN/.test(err.message)?'Wrong PIN.':err.message.replace(/^DESK_RANGE:/,'')}};
+function toast(m){const t=$('toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),2600)}
+const active=()=>S.guests.filter(g=>!g.void);
+const byPaddle=p=>active().find(g=>String(g.paddle)===String(p));
+
+/* ---------- paddle numbers ---------- */
+function skipSet(){return new Set(String(S.settings.pSkip||'').split(/[,\s]+/).filter(Boolean).map(Number))}
+function deskBlock(k){const s=S.settings,a=+s.pStart,b=+s.pEnd,n=Math.max(1,+s.desks||1),d=Math.min(n,Math.max(1,parseInt(k,10)||1));
+  const size=Math.ceil((b-a+1)/n),lo=a+(d-1)*size;return [lo,Math.min(b,lo+size-1)]}
+function nextPaddle(){
+  const used=new Set(active().filter(g=>g.paddle).map(g=>+g.paddle)),sk=skipSet(),bl=deskBlock(S.settings.desk);
+  for(let n=bl[0];n<=bl[1];n++){if(!used.has(n)&&!sk.has(n))return n}
+  for(let n=+S.settings.pStart;n<=+S.settings.pEnd;n++){if(!used.has(n)&&!sk.has(n))return n}
+  return null;
+}
+
+function paddleState(n,exceptId){n=+n;const s=S.settings;
+  if(!Number.isInteger(n)||n<1)return 'Enter a whole number';
+  if(n<+s.pStart||n>+s.pEnd)return `Outside the paddle range (${s.pStart}–${s.pEnd})`;
+  if(skipSet().has(n))return 'This number is not used';
+  const g=S.guests.find(x=>+x.paddle===n&&x.id!==exceptId&&!x.void);if(g)return `Taken by ${g.name}`;
+  return '';}
+const LUCKY=new Set([6,8,9,18,28,38,39,66,68,69,79,86,88,89,99,168,188,288,368,388,668,688,888,889,999]);
+function openPadPicker(){
+  const s=S.settings,cur=+F.pad.value||0,exceptId=F.id.value;let upto=Math.min(+s.pEnd,Math.max(+s.pStart+199,cur+20));
+  const draw=()=>{let h='';for(let n=+s.pStart;n<=upto;n++){const st=paddleState(n,exceptId);h+=`<button type="button" data-n="${n}" ${st?'disabled title="'+esc(st)+'"':''} class="${n===cur?'cur':''} ${LUCKY.has(n)&&!st?'lucky':''}">${n}</button>`}
+    $('pp_grid').innerHTML=h;$('pp_more').hidden=upto>=+s.pEnd;
+    $('pp_grid').querySelectorAll('button:not(:disabled)').forEach(b=>b.onclick=()=>{F.pad.value=b.dataset.n;padMsg();$('dlg').close()});};
+  $('dlg_h').textContent='Choose a paddle number';
+  $('dlg_b').innerHTML=`<p class="small" style="margin:0 0 10px">This desk's paddles are ${deskBlock(S.settings.desk).join('–')} (all paddles ${s.pStart}–${s.pEnd}). Use your own numbers unless the guest asks for a particular free number. Crossed-out numbers are taken. Gold = popular lucky numbers. Or type any free number in the box.</p><div class="padgrid" id="pp_grid"></div><div class="actions" style="margin-top:12px"><button class="btn" type="button" id="pp_more">Show more numbers</button><button class="btn" type="button" id="pp_x">Close</button></div>`;
+  draw();$('pp_more').onclick=()=>{upto=Math.min(+s.pEnd,upto+200);draw()};$('pp_x').onclick=()=>$('dlg').close();$('dlg').showModal();
+}
+function padMsg(){const v=F.pad.value.trim();const obs=/observer|press/i.test(F.type.value);
+  if(obs){$('f_padmsg').innerHTML='No paddle for observers / press';return}
+  if(!v){$('f_padmsg').textContent='';return}
+  const st=paddleState(v,F.id.value);$('f_padmsg').innerHTML=st?`<span class="flag">${esc(st)}</span>`:'<span style="color:var(--ok)">✓ Available</span>'}
+
+/* ---------- header / tabs ---------- */
+function renderHeader(){
+  $('h_count').textContent=active().filter(g=>g.paddle).length;
+  $('h_desk').textContent=S.settings.desk+' of '+(S.settings.desks||1)+' (paddles '+deskBlock(S.settings.desk).join('–')+')';
+  $('h_event').textContent=S.settings.event+' · '+S.settings.date;
+  const n=nextPaddle();$('h_next').textContent=n?'next paddle '+n:'paddle range full';
+}
+document.querySelectorAll('nav.tabs button').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+function showTab(t){
+  document.querySelectorAll('nav.tabs button').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t));
+  document.querySelectorAll('main>section').forEach(s=>s.hidden=s.id!=='tab_'+t);
+  if(t==='guests')renderGuests();if(t==='results')renderResults();if(t==='settings')renderSettings();
+  if(t==='checkin')setTimeout(()=>$('q').focus(),0);
+}
+
+/* ---------- search ---------- */
+let qSel=-1,qItems=[];
+$('q').addEventListener('input',runSearch);
+$('q').addEventListener('keydown',e=>{
+  if(e.key==='ArrowDown'){qSel=Math.min(qSel+1,qItems.length-1);markSel();e.preventDefault()}
+  else if(e.key==='ArrowUp'){qSel=Math.max(qSel-1,-1);markSel();e.preventDefault()}
+  else if(e.key==='Enter'){e.preventDefault();if(qSel>=0&&qItems[qSel])pick(qItems[qSel]);else startNew($('q').value)}
+});
+function runSearch(){
+  const raw=$('q').value.trim(),q=norm(raw),d=digits(raw);qSel=-1;
+  if(!q){qItems=[];$('qres').innerHTML=active().length?'<p class="small" style="padding:8px">Type at least one letter or digit.</p>':'';return}
+  const match=(o)=>{const n=norm(o.name);return n.includes(q)||q.split(' ').every(w=>n.includes(w))||(d.length>=3&&(digits(o.phone).includes(d)||digits(o.idno).includes(d)))||(o.email&&norm(o.email).includes(q))};
+  const reg=active().filter(g=>match(g)||(d&&String(g.paddle)===d)).map(g=>({kind:'reg',g}));
+  const regNames=new Set(active().map(g=>norm(g.name)));
+  const past=PAST.filter(p=>match(p)&&!regNames.has(norm(p.name))).slice(0,25).map(p=>({kind:'past',p}));
+  qItems=[...reg,...past];
+  $('qres').innerHTML=qItems.map((it,i)=>it.kind==='reg'
+    ?`<div class="res" data-i="${i}"><div><div class="nm">${esc(it.g.name)}</div><div class="meta">${esc(it.g.nat||'')} · ${esc(it.g.phone||'')} · ${esc(it.g.type)}</div></div><div class="right"><span class="badge reg">registered</span>${it.g.paddle?`<span class="badge paddle">#${it.g.paddle}</span>`:''}</div></div>`
+    :`<div class="res" data-i="${i}"><div><div class="nm">${esc(it.p.name)}</div><div class="meta">${esc(it.p.nat||'')}${it.p.phone?' · '+esc(it.p.phone):''}${it.p.email?' · '+esc(it.p.email):''}</div></div><div class="right">${it.p.buyer?`<span class="badge buyer">bought ${it.p.buyer.lots} lot${it.p.buyer.lots>1?'s':''} · ${M(it.p.buyer.total)}</span>`:''}<span class="badge past">past guest</span></div></div>`
+  ).join('')+`<div class="res" data-new="1"><div><div class="nm">+ New guest${raw?': “'+esc(raw)+'”':''}</div><div class="meta">Press Enter</div></div></div>`;
+  $('qres').querySelectorAll('.res').forEach(el=>el.onclick=()=>el.dataset.new?startNew(raw):pick(qItems[+el.dataset.i]));
+}
+function markSel(){$('qres').querySelectorAll('.res[data-i]').forEach(el=>el.classList.toggle('sel',+el.dataset.i===qSel))}
+function pick(it){if(it.kind==='reg')return editGuest(it.g.id);const p=it.p,b=p.buyer;startNew(p.name);
+  fillForm({name:p.name,nat:fixNat(p.nat),idno:p.idno||'',addr:p.addr||'',phone:p.phone,email:p.email,type:b&&b.total>=300e6?'VIP bidder':'Bidder',
+    note:'Returning guest (Echoes of Time I)'+(b?` · bought ${b.lots} lot(s), ${M(b.total)} VND, paddle ${b.paddle}`:'')});
+  $('f_sub').innerHTML=(b?'<b>Past buyer</b> – details prefilled from the Auction DB. ':'Returning guest. ')+'Check the ID card against the form'+(p.idno?'':' and enter the ID number')+'.';
+  dupCheck();(p.idno?F.phone:F.idno).focus()}
+function fixNat(n){const m={vnese:'Vietnam',vietnamese:'Vietnam',vietnam:'Vietnam',korean:'Korea',chinese:'China',singaporean:'Singapore',american:'USA',russian:'Russia',french:'France',lebanese:'Lebanon','sri lanka':'Sri Lanka'};return m[norm(n)]||n||''}
+
+/* ---------- form ---------- */
+const F=$('f');
+function fillForm(o){for(const k of ['id','name','idno','nat','phone','email','addr','dep','depm','type','ref','staff','note'])if(F[k]&&o[k]!=null)F[k].value=k==='name'?String(o[k]).toLocaleUpperCase('vi'):k==='dep'?(o[k]?String(+(o[k]/1e6).toFixed(3)):''):o[k];if(o.terms!=null)F.terms.checked=!!o.terms}
+function startNew(name){
+  F.reset();F.id.value='';F.staff.value=localStorage.getItem(KEY+'_staff')||'';
+  $('done').hidden=true;F.hidden=false;$('f_title').textContent='New registration';$('f_sub').textContent='Required: name, ID or passport number, phone.';$('f_warn').innerHTML='';
+  const n=nextPaddle();F.pad.value=n||'';F.pad.dataset.auto=F.pad.value;padMsg();$('f_paddlehint').textContent=n?'':'No paddle numbers left – change the range in Settings';
+  if(name)F.name.value=name.trim();$('f_submit').textContent='Register & assign paddle';
+  setTimeout(()=>(name?F.idno:F.name).focus(),0);
+}
+function editGuest(id){
+  const g=S.guests.find(x=>x.id===id);if(!g)return;showTab('checkin');startNew();fillForm(g);
+  $('f_title').textContent=g.paddle?`Paddle #${g.paddle} · edit`:'Edit guest';$('f_sub').textContent='Registered '+new Date(g.at).toLocaleString('en-GB')+' at desk '+g.desk;
+  F.pad.value=g.paddle||'';F.pad.dataset.auto='';padMsg();$('f_submit').textContent='Save changes';$('f_paddlehint').textContent='';
+}
+F.pad.addEventListener('input',padMsg);F.type.addEventListener('change',padMsg);$('f_choose').onclick=openPadPicker;
+$('f_clear').onclick=()=>{startNew();$('q').value='';runSearch();$('q').focus()};
+const mil=s=>{const v=parseFloat(String(s||'').replace(/,/g,'.').replace(/[^\d.]/g,''));return isNaN(v)?0:v};
+const M=v=>v?(+(v/1e6).toFixed(3)).toLocaleString('en-US')+'M':'';
+F.dep.addEventListener('blur',()=>{const v=mil(F.dep.value);F.dep.value=v?String(v):''});
+F.dep.addEventListener('input',()=>{const v=mil(F.dep.value);F.dep.title=v?vnd(v*1e6)+' ₫':''});
+F.addEventListener('input',()=>dupCheck());
+function dupCheck(){
+  const id=F.id.value,i=digits(F.idno.value),p=digits(F.phone.value),warns=[];
+  for(const g of active()){if(g.id===id)continue;
+    if(i.length>=6&&digits(g.idno)===i)warns.push(`Same ID number as <b>${esc(g.name)}</b> (paddle ${g.paddle||'—'})`);
+    else if(p.length>=8&&digits(g.phone)===p)warns.push(`Same phone as <b>${esc(g.name)}</b> (paddle ${g.paddle||'—'})`);}
+  $('f_warn').innerHTML=warns.length?`<div class="warn">${warns.join('<br>')}. Check it is not the same person before registering again.</div>`:'';
+}
+F.addEventListener('submit',async e=>{
+  e.preventDefault();
+  const o=Object.fromEntries(new FormData(F));o.terms=F.terms.checked;o.dep=Math.round(mil(o.dep)*1e6);
+  for(const k in o)if(typeof o[k]==='string')o[k]=o[k].trim();
+  if(o.name)o.name=o.name.replace(/\s+/g,' ').toLocaleUpperCase('vi');
+  if(!o.name||!o.idno||!o.phone){toast('Name, ID number and phone are required');return}
+  localStorage.setItem(KEY+'_staff',o.staff||'');
+  const observer=/observer|press/i.test(o.type);
+  if(!observer&&o.pad){const st=paddleState(+digits(o.pad),o.id);if(st&&!/Taken by/.test(st)){toast('Paddle '+o.pad+': '+st);padMsg();F.pad.focus();return}}
+  o.pad=observer?'':(!o.pad||(!o.id&&o.pad===F.pad.dataset.auto))?'auto':digits(o.pad);
+  if(!o.id)delete o.id;
+  const btn=$('f_submit');btn.disabled=true;busy(true);
+  try{const r=await api('saveGuest',o,S.settings.desk);applyState(r.state);refreshViews();showDone(r.guest,!!o.id)}
+  catch(err){const m=err.message.replace(/^PADDLE_TAKEN:/,'');
+    if(/PADDLE_TAKEN/.test(err.message)){await poll();const n=nextPaddle();F.pad.value=n||'';F.pad.dataset.auto='';padMsg();alert(m+(n?'\n\nThe next free number '+n+' is now in the form. Press Register again.':''))}
+    else alert('NOT SAVED: '+m+'\n\nThe form is still filled in. Press Register again.')}
+  finally{btn.disabled=false;busy(false)}
+});
+function showDone(g,edited){
+  F.hidden=true;$('done').hidden=false;$('f_warn').innerHTML='';
+  $('f_title').textContent=edited?'Saved':'Registered';$('f_sub').textContent=g.type;
+  $('d_num').textContent=g.paddle||'—';$('d_who').textContent=g.name;
+  $('d_hand').hidden=!g.paddle;$('d_hand_n').textContent=g.paddle||'';$('d_slip').onclick=()=>printSlip(g);
+  $('d_next').onclick=()=>{startNew();$('q').value='';runSearch();$('q').focus()};
+  setTimeout(()=>$('d_next').focus(),0);
+}
+
+/* ---------- guests tab ---------- */
+$('g_q').addEventListener('input',renderGuests);
+function renderGuests(){
+  const q=norm($('g_q').value);const list=S.guests.filter(g=>!q||norm([g.name,g.phone,g.idno,g.email,g.paddle,g.nat].join(' ')).includes(q)).sort((a,b)=>(a.paddle||1e9)-(b.paddle||1e9));
+  $('g_info').textContent=`${active().length} guests · ${active().filter(g=>g.paddle).length} paddles · deposits ${M(active().reduce((s,g)=>s+(+g.dep||0),0))||'0'} VND`;
+  $('g_tbl').innerHTML=`<tr><th>Paddle</th><th>Name</th><th>Nationality</th><th>ID no.</th><th>Phone</th><th>Email</th><th>Deposit (M VND)</th><th>Type</th><th>Desk</th><th>Time</th><th></th></tr>`+
+   list.map(g=>`<tr class="${g.void?'void':''}"><td><b>${g.paddle||'—'}</b></td><td>${esc(g.name)}${g.ref?`<div class="small">via ${esc(g.ref)}</div>`:''}</td><td>${esc(g.nat)}</td><td>${esc(g.idno)}</td><td>${esc(g.phone)}</td><td>${esc(g.email)}</td><td class="num">${g.dep?M(g.dep):''}${g.depm?`<div class="small">${esc(g.depm)}</div>`:''}</td><td>${esc(g.type)}</td><td>${esc(g.desk)}</td><td class="small">${new Date(g.at).toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'})}</td>
+   <td style="white-space:nowrap">${g.void?`<button class="btn sm" data-a="unvoid" data-id="${g.id}">Restore</button>`:`<button class="btn sm" data-a="edit" data-id="${g.id}">Edit</button> <button class="btn sm" data-a="slip" data-id="${g.id}">Slip</button> <button class="btn sm danger" data-a="void" data-id="${g.id}">Void</button>`}</td></tr>`).join('');
+  $('g_tbl').querySelectorAll('button[data-a]').forEach(b=>b.onclick=()=>{const g=S.guests.find(x=>x.id===b.dataset.id);
+    if(b.dataset.a==='edit')editGuest(g.id);if(b.dataset.a==='slip')printSlip(g);
+    if(b.dataset.a==='void'&&confirm(`Void the registration of ${g.name}${g.paddle?' (paddle '+g.paddle+')':''}? Paddle ${g.paddle||''} becomes free and can be given to another guest.`))setVoid(g,true);
+    if(b.dataset.a==='unvoid')setVoid(g,false)});
+}
+async function setVoid(g,v){busy(true);try{const r=await api('setVoid',g.id,v,S.settings.desk);applyState(r.state);refreshViews();renderGuests();if(r.note){toast(r.note);editGuest(g.id)}}catch(e){alert('NOT SAVED: '+e.message)}finally{busy(false)}}
+const PADDLE_COLS=['Paddle no.','Fullname/ Họ & Tên','Deposit Amount (million VND)','Nationality','ID #','Address/ Địa Chỉ Nhận Thiệp','Phone No.','Email'];
+const paddleRows=()=>active().filter(g=>g.paddle).sort((a,b)=>a.paddle-b.paddle).map(g=>[g.paddle,g.name.toUpperCase(),g.dep?+(g.dep/1e6).toFixed(3):'',g.nat,g.idno,g.addr,g.phone,g.email]);
+$('g_paddles').onclick=()=>download(`Paddles_${S.settings.desk}_${stamp()}.csv`,csv([PADDLE_COLS,...paddleRows()]));
+$('g_copy').onclick=()=>copyTSV(paddleRows(),'Paddle rows copied – paste into cell A2 of the Paddles tab');
+
+/* ---------- results ---------- */
+$('r_file').addEventListener('change',async e=>{const f=e.target.files[0];if(!f)return;importResults(await f.text());e.target.value=''});
+function parseCSV(t){t=t.replace(/^﻿/,'');const rows=[];let r=[],f='',q=false;for(let i=0;i<t.length;i++){const c=t[i];
+  if(q){if(c==='"'){if(t[i+1]==='"'){f+='"';i++}else q=false}else f+=c}
+  else if(c==='"')q=true;else if(c===','){r.push(f);f=''}else if(c==='\n'||c==='\r'){if(c==='\r'&&t[i+1]==='\n')i++;r.push(f);rows.push(r);r=[];f=''}else f+=c}
+  if(f!==''||r.length){r.push(f);rows.push(r)}return rows.filter(x=>x.some(v=>v!==''))}
+function importResults(text){
+  const rows=parseCSV(text);if(!rows.length){toast('Empty file');return}
+  const h=rows[0].map(x=>norm(x));const ix=k=>h.findIndex(x=>x.includes(k));
+  const iLot=ix('lot'),iCert=ix('certificate'),iRes=ix('result'),iPad=ix('paddle'),iHamM=ix('hammer'),iV=h.findIndex(x=>x==='vnd'),iT=ix('title');
+  if(iLot<0||iRes<0||iPad<0){toast('This does not look like the Auction Display results export');return}
+  const lots=[];for(const r of rows.slice(1)){
+    const res=(r[iRes]||'').trim().toLowerCase();const lot=String(r[iLot]||'').trim();if(!lot)continue;
+    const cert=iCert>=0?r[iCert]:(lotByNo[lot]||{}).cert;
+    let ham=iV>=0?+digits(r[iV]):0;if(!ham&&iHamM>=0&&r[iHamM])ham=Math.round(parseFloat(String(r[iHamM]).replace(/,/g,''))*1e6);
+    lots.push({lot,cert,title:iT>=0?r[iT]:(lotByNo[lot]||{}).title,result:res,paddle:String(r[iPad]||'').trim(),hammerVND:ham})}
+  busy(true);api('importLots',lots,'display').then(r=>{applyState(r.state);knownResults=new Set(Object.keys(S.results));renderResults();renderHeader();toast(lots.filter(x=>x.result==='sold').length+' sold lots loaded')}).catch(e=>alert('NOT LOADED: '+e.message)).finally(()=>busy(false));
+}
+$('r_add').onclick=()=>openLotDialog();
+function openLotDialog(lot){
+  const r=lot?S.results[lot]:{};
+  $('dlg_h').textContent=lot?'Edit lot '+lot:'Add a sold lot';
+  $('dlg_b').innerHTML=`<form id="lf"><div class="row three" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px">
+   <label>Lot no.<input type="text" name="lot" value="${esc(r.lot||'')}" ${lot?'readonly':''} required></label>
+   <label>Paddle no.<input type="text" name="paddle" value="${esc(r.paddle||'')}" required></label>
+   <label>Hammer price (VND)<input type="text" name="hammer" value="${r.hammer?vnd(r.hammer):''}" required></label></div>
+   <p class="small" id="lf_info" style="margin:10px 0"></p>
+   <div class="actions"><button class="btn primary" type="submit">Save</button>${lot?'<button class="btn danger" type="button" id="lf_del">Remove (not sold)</button>':''}<button class="btn" type="button" id="lf_x">Cancel</button></div></form>`;
+  const lf=$('lf');const info=()=>{const l=lotByNo[lf.lot.value.trim()],g=byPaddle(lf.paddle.value.trim());$('lf_info').innerHTML=(l?`Lot ${l.lot}: ${esc(l.title)}`:'<span class="flag">Unknown lot number</span>')+'<br>'+(g?`Paddle ${g.paddle}: ${esc(g.name)}`:lf.paddle.value?'<span class="flag">No guest has this paddle</span>':'')};
+  lf.addEventListener('input',info);info();
+  lf.hammer.addEventListener('blur',()=>{const v=digits(lf.hammer.value);lf.hammer.value=v?vnd(+v):''});
+  lf.onsubmit=async e=>{e.preventDefault();const L=lf.lot.value.trim(),l=lotByNo[L]||{};busy(true);try{const st=await api('saveResult',{lot:L,cert:l.cert||'',title:l.title||'',paddle:lf.paddle.value.trim(),hammer:+digits(lf.hammer.value),src:'manual'});applyState(st);knownResults=new Set(Object.keys(S.results));$('dlg').close();renderResults()}catch(err){alert('NOT SAVED: '+err.message)}finally{busy(false)}};
+  $('lf_x').onclick=()=>$('dlg').close();if($('lf_del'))$('lf_del').onclick=async()=>{busy(true);try{applyState(await api('removeResult',lot));knownResults=new Set(Object.keys(S.results));$('dlg').close();renderResults()}catch(err){alert('NOT SAVED: '+err.message)}finally{busy(false)}};
+  $('dlg').showModal();
+}
+const prem=h=>Math.round(h*(+S.settings.prem||0)/100);
+const VAT_PCT=10;const vat=h=>Math.round(prem(h)*VAT_PCT/100);const payable=h=>h+prem(h)+vat(h);
+function sold(){return Object.values(S.results).sort((a,b)=>(+a.lot||0)-(+b.lot||0))}
+$('r_q').addEventListener('input',renderResults);
+function renderResults(){
+  $('r_prem').textContent=S.settings.prem;
+  const all=sold(),q=norm($('r_q').value);
+  const list=all.filter(r=>{const g=byPaddle(r.paddle);return !q||norm([r.lot,r.paddle,r.title,g&&g.name].join(' ')).includes(q)});
+  const tot=all.reduce((s,r)=>s+r.hammer,0),unmatched=all.filter(r=>!byPaddle(r.paddle)).length,buyers=new Set(all.map(r=>r.paddle)).size;
+  $('r_kpis').innerHTML=`<div class="kpi"><b>${all.length}</b><span>lots sold of ${LOTS.length}</span></div><div class="kpi"><b>${vnd(tot)}</b><span>hammer total (₫)</span></div><div class="kpi"><b>${vnd(all.reduce((s,r)=>s+payable(r.hammer),0))}</b><span>total payable incl. premium + VAT (₫)</span></div><div class="kpi"><b>${buyers}</b><span>buyers</span></div>${unmatched?`<div class="kpi" style="border-color:#f0c9a8"><b class="flag">${unmatched}</b><span>paddle not registered</span></div>`:''}`;
+  $('r_info').textContent=all.length?`${all.length} sold lots`:'No results loaded yet';
+  $('r_tbl').innerHTML=`<tr><th>Lot</th><th>Item</th><th>Paddle</th><th>Buyer</th><th>ID no.</th><th style="text-align:right">Hammer</th><th style="text-align:right">Premium</th><th style="text-align:right">VAT 10%</th><th style="text-align:right">Total payable</th><th></th></tr>`+
+   list.map(r=>{const g=byPaddle(r.paddle);return `<tr><td><b>${esc(r.lot)}</b></td><td>${esc(r.title)}<div class="small">${esc(r.cert)}</div></td><td><b>${esc(r.paddle)}</b></td><td>${g?esc(g.name):'<span class="flag">not registered</span>'}</td><td>${g?esc(g.idno):''}</td><td class="num">${vnd(r.hammer)}</td><td class="num">${vnd(prem(r.hammer))}</td><td class="num">${vnd(vat(r.hammer))}</td><td class="num"><b>${vnd(payable(r.hammer))}</b></td>
+   <td style="white-space:nowrap"><button class="btn sm gold" data-a="print" data-l="${esc(r.lot)}">Contract</button> <button class="btn sm" data-a="hand" data-l="${esc(r.lot)}">Handover</button> <button class="btn sm" data-a="edit" data-l="${esc(r.lot)}">Edit</button></td></tr>`}).join('');
+  $('r_tbl').querySelectorAll('button').forEach(b=>b.onclick=()=>{const r=S.results[b.dataset.l];if(b.dataset.a==='edit')return openLotDialog(b.dataset.l);
+    if(!byPaddle(r.paddle)&&!confirm(`Paddle ${r.paddle} is not registered, so the buyer section will be blank. Print anyway?`))return;
+    b.dataset.a==='print'?printContracts([r]):printHandover([r])});
+}
+const CD_COLS=['Lot Number','Date','Paddle #','Buyer Name','Buyer ID','Buyer Address','email','Buyer Phone','Hammer Price','Buyer Premium','Total Payable','VAT on Premium'];
+const cdRows=()=>sold().map(r=>{const g=byPaddle(r.paddle)||{};return [r.lot,S.settings.date,r.paddle,(g.name||'').toUpperCase(),g.idno||'',g.addr||'',g.email||'',g.phone||'',r.hammer,prem(r.hammer),payable(r.hammer),vat(r.hammer)]});
+$('r_cd').onclick=()=>download(`Contract_Details_${stamp()}.csv`,csv([CD_COLS,...cdRows()]));
+$('r_cdcopy').onclick=()=>copyTSV(cdRows().map(r=>[r[0],'',r[1],'','','','',r[2],r[3],r[4],r[5],r[6],r[7],r[8],r[9],r[10]]),'Rows copied in Contract Details column order (lot, blank, date, 4 seller columns left blank, paddle…)');
+$('r_printall').onclick=()=>{const l=sold();if(!l.length){toast('No sold lots yet');return}printContracts(l)};
+
+function syncStatus(){}
+/* ---------- contract number ---------- */
+function contractNo(lot){const s=S.settings;return String(lot)+'/'+(String(s.date||'').split('/')[1]||String(new Date().getMonth()+1)).padStart(2,'0')+(s.cSuffix||'')}
+
+/* ---------- printing ---------- */
+function doPrint(html){$('print').innerHTML=html;const imgs=[...$('print').querySelectorAll('img')];Promise.all(imgs.map(i=>i.complete?1:new Promise(r=>{i.onload=i.onerror=r}))).then(()=>setTimeout(()=>window.print(),80))}
+function printPaddles(list){if(!list.length){toast('No paddles to print');return}
+  doPrint(list.map(g=>`<div class="pcard"><div class="ev">ECHOES OF TIME II</div><div class="ev2">Tiếng vọng thời gian II · ${esc(S.settings.date)}</div><div class="n">${g.paddle}</div><div class="nm">${esc(g.name)}</div><div class="ft">Please return this paddle at the end of the auction · Vui lòng hoàn trả bảng số sau phiên đấu giá</div></div>`).join(''))}
+function head(title,sub){return `<div class="hd"><div><h1>${title}</h1><div>${sub}</div></div><div style="text-align:right">${esc(S.settings.event)}<br>${esc(S.settings.date)}<br><span style="font-size:9pt">${esc(S.settings.venue)}</span></div></div>`}
+function printSlip(g){
+  doPrint(`<div class="doc">${head('Bidder Registration','Phiếu đăng ký tham gia đấu giá')}
+  <table><tr><th>Paddle no. / Số bảng</th><td style="font-size:16pt"><b>${g.paddle||'— (no paddle)'}</b></td></tr>
+  <tr><th>Full name / Họ và tên</th><td>${esc(g.name)}</td></tr><tr><th>ID / Passport · CCCD / Hộ chiếu</th><td>${esc(g.idno)}</td></tr>
+  <tr><th>Nationality / Quốc tịch</th><td>${esc(g.nat)}</td></tr><tr><th>Phone / Điện thoại</th><td>${esc(g.phone)}</td></tr><tr><th>Email</th><td>${esc(g.email)}</td></tr>
+  <tr><th>Address / Địa chỉ</th><td>${esc(g.addr)}</td></tr><tr><th>Deposit / Đặt cọc</th><td>${g.dep?(+(g.dep/1e6).toFixed(3)).toLocaleString('en-US')+' triệu / million VND ('+vnd(g.dep)+' ₫)':''} ${esc(g.depm||'')}</td></tr>
+  <tr><th>Guest type</th><td>${esc(g.type)}</td></tr>${g.ref?`<tr><th>Introduced by</th><td>${esc(g.ref)}</td></tr>`:''}</table>
+  <p style="margin-top:12pt">I confirm that the details above are correct and that I have read and accept the auction terms and conditions, including the buyer premium of ${S.settings.prem}% of the hammer price (plus ${VAT_PCT}% VAT on the premium).<br><i>Tôi xác nhận các thông tin trên là chính xác, đã đọc và đồng ý với thể lệ phiên đấu giá, bao gồm phí người mua ${S.settings.prem}% trên giá búa (chưa gồm ${VAT_PCT}% thuế GTGT trên phí).</i></p>
+  <div class="sig"><div>Bidder signature / Chữ ký người tham gia</div><div>Received by / Người tiếp nhận: ${esc(g.staff||'')}</div></div></div>`)}
+const C=k=>esc(S.settings[k]||'');
+function lotInfo(r){const l=lotByNo[r.lot]||lotByCert[r.cert]||{};return {...l,title:l.title||r.title,cert:l.cert||r.cert}}
+/* Item photos built into this file (cut out, small), so contracts show photos on any computer without a photos folder. Updated 2026-11-19. */
+let EMBED_PHOTOS={};
+/* ---- photos: from a loaded folder (IndexedDB) or the images/ folder next to this file ---- */
+const VIEWS=['a','b','c','d'];let PHOTO_URL={},PHOTO_PICK={};
+function idb(){return new Promise((res,rej)=>{const r=indexedDB.open('vietauction_reg_photos',1);r.onupgradeneeded=()=>r.result.createObjectStore('p');r.onsuccess=()=>res(r.result);r.onerror=()=>rej(r.error)})}
+const tryImg=src=>new Promise(res=>{const i=new Image();i.onload=()=>res(i);i.onerror=()=>res(null);i.src=src});
+/* Remove the black studio background: flood-fill from the picture edges, so dark glaze inside the item is kept. */
+function cutout(img){try{const W=img.naturalWidth,H=img.naturalHeight,sc=Math.min(1,900/Math.max(W,H)),w=Math.round(W*sc),h=Math.round(H*sc);
+  const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');x.drawImage(img,0,0,w,h);
+  const d=x.getImageData(0,0,w,h),p=d.data,N=w*h,seen=new Uint8Array(N),q=new Int32Array(N);let qh=0,qt=0;
+  const dark=i=>{const k=i*4;return Math.max(p[k],p[k+1],p[k+2])<46};
+  const add=i=>{if(!seen[i]&&dark(i)){seen[i]=1;q[qt++]=i}};
+  for(let i=0;i<w;i++){add(i);add(N-w+i)}for(let j=0;j<h;j++){add(j*w);add(j*w+w-1)}
+  while(qh<qt){const i=q[qh++],xx=i%w;if(xx>0)add(i-1);if(xx<w-1)add(i+1);if(i>=w)add(i-w);if(i<N-w)add(i+w)}
+  /* holes inside the item (e.g. inside a teapot handle): near-pure-black patches of a reasonable size */
+  const vdark=i=>{const k=i*4;return Math.max(p[k],p[k+1],p[k+2])<26},minA=Math.max(60,N*0.0015);
+  for(let s=0;s<N;s++){if(seen[s]||!vdark(s))continue;let cq=[s];seen[s]=2;const comp=[];
+    while(cq.length){const i=cq.pop();comp.push(i);const xx=i%w;for(const j of [xx>0?i-1:-1,xx<w-1?i+1:-1,i>=w?i-w:-1,i<N-w?i+w:-1])if(j>=0&&!seen[j]&&dark(j)){seen[j]=2;cq.push(j)}}
+    const keep=comp.length<minA;for(const i of comp)seen[i]=keep?3:1}
+  for(let i=0;i<N;i++){if(seen[i]===1){p[i*4+3]=0;continue}
+    const xx=i%w;const nb=(xx>0&&seen[i-1]===1)||(xx<w-1&&seen[i+1]===1)||(i>=w&&seen[i-w]===1)||(i<N-w&&seen[i+w]===1);
+    if(nb){const k=i*4,m=Math.max(p[k],p[k+1],p[k+2]);if(m<90)p[k+3]=Math.round(255*Math.max(0,(m-46)/44))}}
+  x.putImageData(d,0,0);return c.toDataURL('image/png')}catch(e){return null}}
+async function pickPhotos(cert){if(PHOTO_PICK[cert])return PHOTO_PICK[cert];if((EMBED_PHOTOS[cert]||[]).length)return PHOTO_PICK[cert]=EMBED_PHOTOS[cert].slice(0,3);const ok=[];
+  for(const v of VIEWS){if(ok.length>=3)break;
+    const src=PHOTO_URL[cert+'_'+v];if(!src)continue;
+    const im=await tryImg(src);if(!im)continue;ok.push(cutout(im)||src)}
+  return PHOTO_PICK[cert]=ok}
+function photos(cert){const p=PHOTO_PICK[cert]||[];let h=p.map(s=>`<img src="${s}" alt="">`).join('');
+  for(let i=p.length;i<3;i++)h+=`<div class="nophoto">Photo ${i+1}<br>not available</div>`;return h}
+$('ph_check').onclick=checkPhotos;
+async function checkPhotos(){$('ph_info').textContent='Checking…';await fetchPhotos(LOTS.map(l=>l.cert));let full=0;const missing=[];
+  for(const l of LOTS){const p=await pickPhotos(l.cert);if(p.length>=3)full++;else missing.push(l.lot+' ('+p.length+')')}
+  $('ph_info').innerHTML=`${full} of ${LOTS.length} lots have 3 photos.`+(missing.length?`<br><span class="flag">Fewer than 3 photos:</span> lot ${missing.join(', ')}`:' ✓')}
+async function fetchPhotos(certs){const need=[...new Set(certs)].filter(c=>c&&!EMBED_PHOTOS[c]);if(!need.length)return;
+  for(let i=0;i<need.length;i+=12){try{Object.assign(EMBED_PHOTOS,await api('getPhotos',need.slice(i,i+12)))}catch(e){toast('Photos could not be loaded: '+e.message)}}}
+async function preparePhotos(list){toast('Preparing photos…');await fetchPhotos(list.map(r=>lotInfo(r).cert));for(const r of list)await pickPhotos(lotInfo(r).cert)}
+function dims(l){return [l.h&&('H '+l.h+' mm'),l.w&&('W/Ø '+l.w+' mm')].filter(Boolean).join(' · ')}
+function contractHTML(r){
+  const g=byPaddle(r.paddle)||{},l=lotInfo(r),p=prem(r.hammer),s=S.settings,no=esc(contractNo(r.lot));
+  const line=(lab,val)=>`<tr><td class="lab">${lab}</td><td class="val">${val||'&nbsp;'}</td></tr>`;
+  return `<div class="contract">
+  <div class="annex"><span>LOT# ${esc(r.lot)}</span><span>PHỤ LỤC III / ANNEX III</span></div>
+  <h1>HỢP ĐỒNG MUA BÁN TÀI SẢN<br><span>ASSET SALE CONTRACT</span></h1>
+  <p class="no">(Số/No.: ${no})</p>
+  <p class="rec">Căn cứ kết quả đấu giá thành công tại sự kiện “${C('evVN')}” do Công ty TNHH MTV Nguồn tư vấn đầu tư Châu Á (AICR) và Công ty đấu giá Lạc Việt tổ chức;<br>Căn cứ Thỏa thuận ủy quyền giữa Bên Bán và AICR;</p>
+  <p class="rec en">Pursuant to the successful auction results at the event “${C('evEN')}” organized by Asia Investment Consulting Resources Company Limited (AICR) and Lac Viet Auction Company;<br>Pursuant to the Authorization Agreement between the Seller and AICR;</p>
+  <h3>CÁC BÊN THAM GIA / PARTIES</h3>
+  <h4>BÊN BÁN / SELLER</h4><table class="kv">${line('Họ tên / Full name:',C('sName'))}${line('CMND/CCCD/ ID No.:',C('sId'))}</table>
+  <p class="ref">Gọi tắt là “Bên Bán” / Hereinafter referred to as the “Seller”.</p>
+  <h4>BÊN MUA / BUYER</h4><table class="kv">${line('Họ tên / Full name:',esc((g.name||'').toUpperCase()))}${line('CMND/CCCD/ ID No.:',esc(g.idno))}</table>
+  <p class="ref">Gọi tắt là “Bên Mua” / Hereinafter referred to as the “Buyer”. (Paddle no. / Số bảng: ${esc(r.paddle)})</p>
+  <h4>ĐƠN VỊ ĐIỀU PHỐI / COORDINATOR</h4>
+  <table class="kv">${line('Tên công ty / Company:','CÔNG TY TRÁCH NHIỆM HỮU HẠN MTV NGUỒN TƯ VẤN ĐẦU TƯ CHÂU Á (AICR)')}${line('Giấy ĐKKD / Business Reg. No.:','0304991761')}${line('Địa chỉ / Address:','8 Trương Văn Thành, phường Tăng Nhơn Phú, tp. Hồ Chí Minh')}${line('Đại diện / Representative:',C('rep'))}${line('Chức vụ / Position:','Tổng Giám đốc')}</table>
+  <p class="ref">Gọi tắt là “AICR” / Hereinafter referred to as “AICR”</p>
+  <p>Theo đây đồng ý với các điều khoản sau / Hereby agree on the following terms and conditions:</p>
+  <h3>ĐIỀU 1. TÀI SẢN MUA BÁN VÀ GIÁ<br><span>ARTICLE 1. SOLD ASSET AND PRICE</span></h3>
+  <p>1.1. Tài sản (mã tài sản)/Asset (Asset code): <b>LOT# ${esc(r.lot)}</b> · ${esc(l.cert)}</p>
+  <p class="item">&gt;&gt; ${esc(l.vn||'')}${l.era?' · Thế kỷ '+esc(l.era):''}${l.ovn?' · '+esc(l.ovn):''}<br>&gt;&gt; ${esc(l.title||'')}${l.era?' · '+esc(l.era)+'th century':''}${l.origin?' · '+esc(l.origin):''}${dims(l)?'<br><span class="small2">'+dims(l)+'</span>':''}</p>
+  <div class="phwrap"><p class="phl">Photos of the Item / Hình ảnh hiện vật</p><div class="photos">${photos(l.cert)}</div></div>
+  <table class="money"><tr><td>1.2. Giá gõ búa / Hammer Price:</td><td class="num">${vnd(r.hammer)} VND</td></tr>
+  <tr><td>1.3. Phí người mua / Buyer Premium (${esc(s.prem)}%):</td><td class="num">${vnd(p)} VND</td></tr>
+  <tr><td>1.4. Thuế GTGT trên phí người mua / VAT on Buyer Premium (${VAT_PCT}%):</td><td class="num">${vnd(vat(r.hammer))} VND</td></tr>
+  <tr class="tot"><td>1.5. Tổng số tiền thanh toán / Total Payable:</td><td class="num">${vnd(payable(r.hammer))} VND</td></tr></table>
+  <h3>ĐIỀU 2. PHƯƠNG THỨC THANH TOÁN<br><span>ARTICLE 2. PAYMENT METHOD</span></h3>
+  <p>2.1. Bên Mua thanh toán toàn bộ số tiền tại Điều 1.5 cho AICR theo thông tin tài khoản do AICR cung cấp theo ủy quyền của Bên bán.</p>
+  <ul><li>Tên người thụ hưởng : Công ty TNHH MTV Nguồn Tư Vấn Đầu Tư Châu Á</li><li>Số tài khoản : 200813219 Ngân Hàng TMCP Á Châu - CN Sài Gòn - PGD Hai Bà Trưng</li><li>The Buyer shall pay the total amount in Article 1.5 to AICR's designated bank account.</li></ul>
+  <p>2.2. Sau khi nhận đủ số tiền thanh toán, AICR sẽ / Upon receipt of full payment, AICR shall:</p>
+  <ul><li>Thanh toán cho Bên Bán theo Thỏa thuận ủy quyền riêng giữa Bên Bán và AICR<br>Settle with the Seller under the separate authorization agreement between the Seller and AICR.</li><li>Hoàn tất việc bàn giao tài sản cho Bên Mua / Complete the item handover to the Buyer.</li></ul>
+  <h3>ĐIỀU 3. TRÁCH NHIỆM VÀ CAM KẾT CỦA CÁC BÊN<br><span>ARTICLE 3. RESPONSIBILITIES AND COMMITMENTS OF PARTIES</span></h3>
+  <p>3.1. Cam kết của Người Bán / Seller’s commitments</p>
+  <ul><li>Cam kết rằng cổ vật được đưa ra đấu giá là tài sản hợp pháp, không thuộc sở hữu chung, không đang bị tranh chấp hoặc cầm cố/thế chấp.<br>Commits that the item offered for auction is legally owned, not jointly held, and free from disputes, liens, or encumbrances.</li>
+  <li>Ủy quyền cho AICR thay mặt Bên bán nhận tiền thanh toán từ Bên mua và chuyển lại cho Bên bán sau khi trừ phí áp dụng.<br>Receive payment from the Buyer and transfer it to the Seller after deducting applicable fees.</li>
+  <li>Chịu hoàn toàn trách nhiệm trước pháp luật nếu có khiếu nại, tranh chấp phát sinh liên quan đến quyền sở hữu hoặc xuất xứ của cổ vật.<br>Shall be fully liable under the law for any claims or disputes regarding ownership or provenance.</li>
+  <li>Đồng ý giao vật phẩm đúng hiện trạng, không tráo đổi hoặc thay thế sau khi ký hợp đồng.<br>Agrees to deliver the exact item in its agreed condition, with no substitution after the contract is signed.</li></ul>
+  <p>3.2. Cam kết của Người Mua / Buyer’s commitments</p>
+  <ul><li>Cam kết thanh toán đầy đủ Giá trúng đấu giá + Phí Người Mua (${esc(s.prem)}%) + Thuế GTGT ${VAT_PCT}% trên Phí Người Mua trong vòng 03 (ba) ngày kể từ ngày ký Hợp đồng này.<br>Commits to pay the full Hammer Price + ${esc(s.prem)}% Buyer Premium + ${VAT_PCT}% VAT on the Buyer Premium within 03 (three) days from the date of this Contract.</li>
+  <li>Đồng ý rằng nếu không hoàn tất thanh toán đúng hạn, sẽ bị mất khoản tiền đặt cọc và hủy quyền nhận cổ vật.<br>Acknowledges that failure to complete payment on time results in forfeiture of the Deposit and loss of claim to the item.</li>
+  <li>Chịu mọi chi phí phát sinh sau mua như vận chuyển, lưu kho, bảo hiểm (nếu có).<br>Bears any post-purchase costs such as transport, storage, or insurance (if applicable).</li>
+  <li>Có trách nhiệm kiểm tra hiện vật trong thời gian trưng bày và không khiếu nại sau khi đấu giá thành công.<br>Is responsible for inspecting the item during the exhibition period and waives the right to complain after a successful bid.</li>
+  <li>Đồng ý rằng AICR thực hiện việc thu tiền và bàn giao hiện vật theo ủy quyền của Bên Bán, không chịu trách nhiệm pháp lý đối với hiện vật.<br>Agrees that AICR collects payment and hands over the item under the Seller’s authorization, and holds no legal responsibility regarding the item.</li></ul>
+  <p>3.3. Cam kết của AICR / AICR’s commitments</p>
+  <ul><li>AICR KHÔNG phải là tổ chức đấu giá, không can thiệp vào quá trình xác lập giá trúng đấu giá.<br>AICR is NOT an auctioneer and does not intervene in auction result determination.</li>
+  <li>AICR là đơn vị điều phối sau phiên đấu giá, thực hiện thu tiền, giao nhận và thanh toán theo ủy quyền của Bên Bán.<br>AICR acts as the post-auction coordinator, handling payment collection, handover and settlement under the Seller’s authorization.</li>
+  <li>AICR cam kết bàn giao tài sản cho Bên Mua trong vòng 24 giờ kể từ khi nhận đủ thanh toán.<br>AICR commits to hand over the item to the Buyer within 24 hours of receiving full payment.</li></ul>
+  <h3>ĐIỀU 4. GIAO NHẬN &amp; BÀN GIAO<br><span>ARTICLE 4. DELIVERY &amp; HANDOVER</span></h3>
+  <p>Người mua theo đây xác nhận:<br>The Buyer hereby confirms that:</p>
+  <ul><li>Đã nhận tài sản theo nguyên trạng (“AS IS, WHERE IS”) / The Asset is accepted on an “AS IS, WHERE IS” basis;</li><li>Đã tự kiểm tra tài sản trước khi nhận / The Asset has been independently inspected prior to receipt;</li><li>Không có khiếu nại tại thời điểm bàn giao / No complaint exists at the time of handover;</li><li>Mọi rủi ro và nghĩa vụ liên quan đến Tài sản thuộc trách nhiệm của Người mua kể từ thời điểm ký Biên bản này;<br>All risks and responsibility relating to the Asset shall pass to the Buyer upon execution of this Record.</li></ul>
+  <h3 style="text-align:center">ĐẠI DIỆN CÁC BÊN KÝ TÊN / SIGNATURES</h3>
+  <div class="sig3"><div><b>ĐẠI DIỆN BÊN BÁN</b><br>Seller’s Signature<br><i>(Ký và ghi rõ họ tên)</i><div class="sp"></div>${C('sName').toUpperCase()}</div>
+  <div><b>ĐẠI DIỆN BÊN MUA</b><br>Buyer’s Signature<br><i>(Ký và ghi rõ họ tên)</i><div class="sp"></div>${esc((g.name||'').toUpperCase())}</div>
+  <div><b>ĐẠI DIỆN AICR</b><br>Representative of AICR<br><i>(Ký tên, đóng dấu)</i><div class="sp"></div>${C('rep').toUpperCase()}</div></div>
+  </div>`}
+async function printContracts(list){await preparePhotos(list);doPrint(list.map(contractHTML).join(''))}
+async function printHandover(list){await preparePhotos(list);
+  doPrint(list.map(r=>{const g=byPaddle(r.paddle)||{},l=lotInfo(r);return `<div class="contract">
+  <p style="margin:0;font-weight:700">AICR ANTIQUE AUCTION</p>
+  <h1>BIÊN BẢN BÀN GIAO HÀNG HÓA<br><span>GOODS HANDOVER CONFIRMATION</span></h1>
+  <table class="kv"><tr><td class="lab">LOT#</td><td class="val"><b>${esc(r.lot)}</b></td></tr><tr><td class="lab">Date / Ngày:</td><td class="val">${C('date')}</td></tr><tr><td class="lab">Location / Địa điểm:</td><td class="val">${C('venue')}</td></tr></table>
+  <h3>A. CUSTOMER INFORMATION / THÔNG TIN KHÁCH HÀNG</h3>
+  <table class="kv"><tr><td class="lab">1. Full Name / Họ và tên:</td><td class="val">${esc((g.name||'').toUpperCase())}</td></tr><tr><td class="lab">2. ID / Số CCCD / Hộ chiếu số:</td><td class="val">${esc(g.idno)}</td></tr></table>
+  <h3>B. ITEM INFORMATION / THÔNG TIN HÀNG HÓA</h3>
+  <p class="item">&gt;&gt; ${esc(l.vn||'')}<br>&gt;&gt; ${esc(l.title||'')} · ${esc(l.cert)}</p>
+  <div class="phwrap"><p class="phl">Photos of the Item / Hình ảnh hiện vật</p><div class="photos">${photos(l.cert)}</div></div>
+  <h3>C. CONFIRMATION / XÁC NHẬN</h3>
+  <p>The undersigned confirms that the item(s) listed above have been received in good condition.<br><i>Người ký tên xác nhận đã hoàn tất thanh toán và đã nhận đầy đủ hàng hóa/tác phẩm nêu trên trong tình trạng tốt.</i></p>
+  <div class="sig3 two"><div>Customer Signature<br>Chữ ký khách hàng<div class="sp"></div>${esc((g.name||'').toUpperCase())}</div><div>Authorized Representative<br>Đại diện bàn giao<div class="sp"></div>&nbsp;</div></div></div>`}).join(''))}
+
+/* ---------- settings / backup ---------- */
+const SF=$('s');
+function renderSettings(){for(const k in S.settings)if(SF[k])SF[k].value=S.settings[k];$('s_lots').textContent=LOTS.length;
+  $('s_blocks').innerHTML=Array.from({length:+S.settings.desks||1},(_,i)=>{const b=deskBlock(i+1);return `Desk ${i+1}: paddles <b>${b[0]}–${b[1]}</b>`}).join(' · ');
+  $('cn_info').innerHTML=`Desk <b>${esc(S.settings.desk)}</b> of ${S.settings.desks||1} · own paddles ${deskBlock(S.settings.desk).join('–')} · ${online?'<span style="color:var(--ok)">connected to the shared list</span>':'<span class="flag">offline</span>'} · ${active().length} guests on the list.`}
+SF.onsubmit=async e=>{e.preventDefault();const o=Object.fromEntries(new FormData(SF));delete o.desk;o.desks=Math.min(20,Math.max(1,parseInt(o.desks,10)||1));
+  o.prem=+o.prem||0;o.pStart=+o.pStart||1;o.pEnd=+o.pEnd||99;if(o.pEnd<o.pStart){toast('Last paddle number must be after the first');return}
+  busy(true);try{applyState(await api('saveSettings',o));refreshViews();renderSettings();toast('Settings saved for every desk')}catch(err){alert('NOT SAVED: '+err.message)}finally{busy(false)}};
+$('b_down').onclick=()=>download(`registration_backup_${S.settings.desk}_${stamp()}.json`,JSON.stringify({settings:S.settings,guests:S.guests,results:S.results},null,1),'application/json');
+$('b_reset').onclick=async()=>{const w=prompt('This removes ALL guests and sale results on EVERY desk.\nType CLEAR to confirm.');if(!w)return;
+  busy(true);try{applyState(await api('clearAll',w));knownResults=new Set();refreshViews();renderSettings();toast('Cleared')}catch(err){alert(err.message)}finally{busy(false)}};
+$('b_logout').onclick=()=>{localStorage.removeItem(KEY+'_pin');PIN='';showLogin('')};
+
+/* ---------- helpers ---------- */
+function csv(rows){return '﻿'+rows.map(r=>r.map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(',')).join('\r\n')}
+function stamp(){const d=new Date();return d.toISOString().slice(0,10)+'_'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0')}
+function download(name,text,type='text/csv'){const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([text],{type}));a.download=name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)}
+async function copyTSV(rows,msg){if(!rows.length){toast('Nothing to copy');return}const t=rows.map(r=>r.map(v=>String(v??'').replace(/[\t\n]/g,' ')).join('\t')).join('\n');
+  try{await navigator.clipboard.writeText(t);toast(msg)}catch(e){const ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');toast(msg)}catch(_){toast('Copy failed – use the CSV export')}ta.remove()}}
+
+renderHeader();startNew();setOnline(true);$('h_sync').textContent='connecting…';
+if(PIN){$('lg').desk.value=S.settings.desk;$('lg').pin.value=PIN;$('lg').requestSubmit()}else showLogin('');
+</script>
+</body>
+</html>
